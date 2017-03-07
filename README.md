@@ -8,6 +8,6 @@ There will be no user account creation whatsoever, as the application is too sim
 This project could eventually branch out into an iOS application and a web app as well. That will not be a focus of this semester, but using Firebase is easy enough on all three platforms that it could easily be cross-platform. 
 
 
-### Concept Screenshot
+### Concept Wireframe
 
-<img src="http://i.imgur.com/whqNIqT.png" width="200px">
+<img src="http://i.imgur.com/mfjq583.png" width="100%">
