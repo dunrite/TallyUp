@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TallyUp" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/primary_material_dark_1</item>
+        <item name="android:statusBarColor">@color/tally_status</item>
+        <item name="android:colorBackground">@color/background_material_dark</item>
+    </style>
+</resources>
