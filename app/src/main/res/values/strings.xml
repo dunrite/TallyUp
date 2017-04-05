@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TallyUp</string>
+    <string name="welcome_to">Welcome to</string>
+    <string name="tally_up">Tally Up</string>
 </resources>
