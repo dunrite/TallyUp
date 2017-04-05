@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:textSize="28sp"
+        android:layout_marginTop="48dp"
+        android:text="@string/welcome_to" />
+
+    <ImageView
+        android:id="@+id/textLogo"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:paddingLeft="64dp"
+        android:paddingRight="64dp"
+        android:layout_margin="8dp"
+        android:src="@drawable/tally_up_white"/>
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:src="@drawable/logo_white"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:textSize="28sp"
+        android:layout_marginTop="32dp"
+        android:text="@string/simply_ask" />
+
+</LinearLayout>

@@ -1,16 +1,13 @@
 <resources>
-
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="TallyUp">
+    <style name="AppTheme" parent="Theme.AppCompat">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimaryDark</item>
     </style>
-
-    <style name="TallyUp" parent="Theme.AppCompat.NoActionBar" >
-        <item name="colorPrimary">@color/primary_material_dark_1</item>
-        <item name="android:colorBackground">@color/background_material_dark</item>
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
-
 </resources>

@@ -2,4 +2,8 @@
     <string name="app_name">TallyUp</string>
     <string name="welcome_to">Welcome to</string>
     <string name="tally_up">Tally Up</string>
+    <string name="simply_ask">Simply Ask.</string>
+    <string name="what_is_this">What is This?</string>
+    <string name="account_creation_desc">Account creation is optional. They allow you to create groups of other users, among other things.</string>
+    <string name="sign_up">Sign Up</string>
 </resources>

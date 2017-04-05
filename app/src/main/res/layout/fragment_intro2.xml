@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:textSize="28sp"
+        android:layout_marginTop="96dp"
+        android:text="@string/what_is_this" />
+
+    <ImageView
+        android:id="@+id/textLogo"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:paddingLeft="64dp"
+        android:paddingRight="64dp"
+        android:layout_margin="8dp"
+        android:src="@drawable/intro2_icon"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        android:layout_margin="16dp"
+        android:layout_marginTop="48dp"
+        android:text="This app offers an easy way to poll other people about whatever your heart desires." />
+</LinearLayout>
