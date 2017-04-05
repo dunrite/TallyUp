@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "632295433583",
+    "firebase_url": "https://tallyup-43138.firebaseio.com",
+    "project_id": "tallyup-43138",
+    "storage_bucket": "tallyup-43138.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:632295433583:android:096bf56097f452aa",
+        "android_client_info": {
+          "package_name": "com.dunrite.tallyup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "632295433583-rt8anbjak0gh047g4sm39qo27ns5nqvi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dunrite.tallyup",
+            "certificate_hash": "7073c2d483c764e5ac0e06ec6d0b6e11245c780e"
+          }
+        },
+        {
+          "client_id": "632295433583-9i7kb5rap3e72o4u24hni3krkc2bpeq8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHHohbLrPxGp-TKtGZADK4lAw3bbIbGHs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "632295433583-9i7kb5rap3e72o4u24hni3krkc2bpeq8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
