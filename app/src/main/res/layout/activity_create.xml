@@ -1,6 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:clipToPadding="false">
 
-</LinearLayout>
+    <EditText
+        android:id="@+id/questionText"
+        style="@style/Widget.AppCompat.EditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Question"
+        android:inputType="text" />
+
+    <CheckBox
+        android:id="@+id/multiSelect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Multi-Select"
+        android:layout_below="@id/questionText"/>
+
+    <TextView
+        android:id="@+id/spinnerLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/multiSelect"
+        android:padding="4dp"
+        android:text="Question Type" />
+    <Spinner
+        android:id="@+id/type_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/multiSelect"
+        android:layout_toEndOf="@+id/spinnerLabel"/>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:clickable="true"
+        android:src="@drawable/ic_check_24dp"
+        android:tint="@color/colorAccent"/>
+
+
+</RelativeLayout>
