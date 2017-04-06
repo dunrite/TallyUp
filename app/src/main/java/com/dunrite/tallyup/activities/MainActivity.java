@@ -13,6 +13,9 @@ import android.support.v7.app.AppCompatActivity;
 import com.dunrite.tallyup.R;
 import com.dunrite.tallyup.utility.Utils;
 
+/**
+ * Main activity that shows active and closed polls for the user
+ */
 public class MainActivity extends AppCompatActivity {
 
     @Override

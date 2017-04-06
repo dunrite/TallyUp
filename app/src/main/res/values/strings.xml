@@ -6,4 +6,6 @@
     <string name="what_is_this">What is This?</string>
     <string name="account_creation_desc">Account creation is optional. They allow you to create groups of other users, among other things.</string>
     <string name="sign_up">Sign Up</string>
+    <string name="take_poll">Take Poll</string>
+    <string name="create_new_poll">Create New Poll</string>
 </resources>
