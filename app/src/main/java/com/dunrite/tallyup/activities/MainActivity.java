@@ -123,9 +123,15 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    public boolean userIsInPoll(Map<String, Object> poll) {
+    public boolean userIsInPoll(String pid, Map<String, Object> attributes) {
         //for ( poll.get("Voters").get())
-        return mAuth.getCurrentUser().getUid().equals(poll.get("OwnerID"));
+        String uid = mAuth.getCurrentUser().getUid();
+        if (uid.equals(attributes.get("OwnerID"))) {
+            return true;
+        } else if (mDatabase.child(pid).child("Voters").child(uid) != null) {
+            return true;
+        }
+        return false;
     }
     /**
      * Connect to the Firebase database
@@ -151,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
                                     //Log.d("polls", polls.toString());
                                     for (Map.Entry<String, Object> poll : polls.entrySet()) {
                                         Map<String, Object> attributes = (Map<String, Object>) poll.getValue();
-                                        if(userIsInPoll(attributes)) {
+                                        if(userIsInPoll(poll.getKey(), attributes)) {
                                             //Poll (String q, String t, Boolean m, Map<String, Integer> o) {
                                             pollsList.add(new Poll(poll.getKey(), attributes.get("Question").toString()));
 

@@ -130,7 +130,7 @@ public class PollActivity extends AppCompatActivity {
                                     pollItems.clear();
 
                                     Map<String, Object> items = (Map<String, Object>) dataSnapshot.getValue();
-                                    Log.d("items", items.toString());
+                                    //Log.d("items", items.toString());
                                     for (Map.Entry<String, Object> item : items.entrySet()) {
                                         if (item.getKey().startsWith("Item")) {
                                             Map<String, Object> attributes = (Map<String, Object>) item.getValue();
