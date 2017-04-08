@@ -20,6 +20,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -68,6 +71,13 @@ public class CreateActivity extends AppCompatActivity {
         return true;
     }
 
+    private HashMap<String, Object> constructChoice(EditText et) {
+        HashMap<String, Object> temp = new HashMap<>();
+        temp.put("Name", et.getText().toString());
+        temp.put("Votes", 0);
+        return temp;
+    }
+
     private void pushQuestionToFirebase(final String q) {
         if(Utils.isOnline(getApplicationContext())) {
             mAuth.signInAnonymously()
@@ -75,9 +85,19 @@ public class CreateActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             //Login successful
+                            Map<String, Object> newQuestion = new HashMap<>();
+                            Map<String, Object> i0 = constructChoice(item0);
+                            Map<String, Object> i1 = constructChoice(item1);
+                            Map<String, Object> i2 = constructChoice(item2);
+                            Map<String, Object> i3 = constructChoice(item3);
+                            newQuestion.put("Question", q);
+                            newQuestion.put("Item0", i0);
+                            newQuestion.put("Item1", i1);
+                            newQuestion.put("Item2", i2);
+                            newQuestion.put("Item3", i3);
+                            newQuestion.put("OwnerID", mAuth.getCurrentUser().getUid());
                             mDatabase = FirebaseDatabase.getInstance().getReference("Polls");
-                            mDatabase.child(Utils.generateSaltString()).child("Question").setValue(q);
-
+                            mDatabase.child(Utils.generateSaltString()).updateChildren(newQuestion);
 
                             //login failure
                             if (!task.isSuccessful()) {
