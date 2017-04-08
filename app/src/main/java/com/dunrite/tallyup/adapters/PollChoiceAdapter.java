@@ -98,7 +98,7 @@ public class PollChoiceAdapter extends RecyclerView.Adapter<PollChoiceAdapter.Vi
             holder.card.setCardBackgroundColor(ContextCompat.getColor(activity, R.color.colorAccent));
             holder.choiceName.setTextColor(ContextCompat.getColor(activity, R.color.colorPrimary));
         }
-        setAnimation(holder.card, position);
+       // setAnimation(holder.card, position);
     }
 
     @Override

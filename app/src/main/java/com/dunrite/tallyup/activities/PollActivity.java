@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dunrite.tallyup.ArrayListAnySize;
 import com.dunrite.tallyup.Poll;
 import com.dunrite.tallyup.PollItem;
 import com.dunrite.tallyup.R;
@@ -29,7 +30,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -41,7 +42,7 @@ public class PollActivity extends AppCompatActivity {
     private String pollID;
     private Poll currentPoll;
     private int selectedItem; //If the user previously participated, we need to remember their choice
-    private ArrayList<PollItem> pollItems;
+    private ArrayListAnySize<PollItem> pollItems;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private PollChoiceAdapter adapter;
@@ -55,7 +56,7 @@ public class PollActivity extends AppCompatActivity {
         setContentView(R.layout.activity_poll);
         ButterKnife.bind(this);
 
-        pollItems = new ArrayList<>();
+        pollItems = new ArrayListAnySize<>();
         selectedItem = -1;
 
         Intent intent = getIntent();
@@ -105,7 +106,7 @@ public class PollActivity extends AppCompatActivity {
 
     public void updateChoice(int prev, int curr) {
         mDatabase.child("Voters").child(mAuth.getCurrentUser().getUid()).setValue(curr);
-        //mDatabase.child("Item" + (prev + 1)).child("Votes").
+       // mDatabase.child("Item" + (prev + 1)).child("Votes").
     }
 
     /**
@@ -135,7 +136,7 @@ public class PollActivity extends AppCompatActivity {
                                             Map<String, Object> attributes = (Map<String, Object>) item.getValue();
                                             PollItem pi = new PollItem(attributes.get("Name").toString(),
                                                     Integer.parseInt(attributes.get("Votes").toString()));
-                                            pollItems.add(pi);
+                                            pollItems.add(Character.getNumericValue(item.getKey().charAt(4)), pi);
                                         }
                                         if (item.getKey().equals("Voters")) {
                                             Map<String, Object> attributes = (Map<String, Object>) item.getValue();
@@ -144,6 +145,7 @@ public class PollActivity extends AppCompatActivity {
                                             }
                                         }
                                     }
+                                    pollItems.removeAll(Collections.singleton(null));
                                     setupRecyclerView();
                                 }
 
