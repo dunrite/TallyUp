@@ -1,21 +1,29 @@
 package com.dunrite.tallyup;
 
-import java.util.Map;
+import java.util.ArrayList;
 
 /**
  * A class that represents a poll. This might not be needed
  */
 public class Poll {
+    private String id;
     private String question;
     private String type;
     private boolean multiSelect;
-    private Map<String, Integer> options; //Integer is number of votes
+    private String expireTime;
+    private ArrayList<PollItem> items;
 
-    public Poll (String q, String t, Boolean m, Map<String, Integer> o) {
+    public Poll (String i, String q, String t, Boolean m, ArrayList<PollItem> pi) {
         question = q;
         type = t;
         multiSelect = m;
-        options = o;
+        items = pi;
+        id = i;
+    }
+
+    public Poll (String i, String q) {
+        id = i;
+        question = q;
     }
 
     public String getQuestion() {
@@ -42,11 +50,19 @@ public class Poll {
         this.multiSelect = multiSelect;
     }
 
-    public Map<String, Integer> getOptions() {
-        return options;
+    public String getId() {
+        return id;
     }
 
-    public void setOptions(Map<String, Integer> options) {
-        this.options = options;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public ArrayList<PollItem> getItems() {
+        return items;
+    }
+
+    public void setItems(ArrayList<PollItem> items) {
+        this.items = items;
     }
 }

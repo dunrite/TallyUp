@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -34,6 +36,12 @@ public class Utils {
         return sharedPref.getBoolean("first", true);
     }
 
+    public static boolean isOnline(Context context) {
+        ConnectivityManager connMgr = (ConnectivityManager)
+                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
+    }
 
     /*****************************************************************************
      * Setters
