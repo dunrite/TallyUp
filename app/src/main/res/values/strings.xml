@@ -8,4 +8,5 @@
     <string name="sign_up">Sign Up</string>
     <string name="take_poll">Take Poll</string>
     <string name="create_new_poll">Create New Poll</string>
+    <string name="multi_select">Multi-Select</string>
 </resources>
