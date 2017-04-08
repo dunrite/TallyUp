@@ -64,9 +64,10 @@ public class PollChoiceAdapter extends RecyclerView.Adapter<PollChoiceAdapter.Vi
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public PollChoiceAdapter(ArrayList<PollItem> pc, PollActivity pa) {
+    public PollChoiceAdapter(ArrayList<PollItem> pc, int selected, PollActivity pa) {
         choices = pc;
         activity = pa;
+        selectedPos = selected;
     }
 
 

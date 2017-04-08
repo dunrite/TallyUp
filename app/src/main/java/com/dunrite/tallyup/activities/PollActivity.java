@@ -40,6 +40,7 @@ import butterknife.ButterKnife;
 public class PollActivity extends AppCompatActivity {
     private String pollID;
     private Poll currentPoll;
+    private int selectedItem; //If the user previously participated, we need to remember their choice
     private ArrayList<PollItem> pollItems;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -55,6 +56,7 @@ public class PollActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         pollItems = new ArrayList<>();
+        selectedItem = -1;
 
         Intent intent = getIntent();
         if (intent.hasExtra("pollID"))
@@ -95,14 +97,12 @@ public class PollActivity extends AppCompatActivity {
     }
 
     public void setupRecyclerView() {
-        adapter = new PollChoiceAdapter(pollItems, this);
+        adapter = new PollChoiceAdapter(pollItems, selectedItem, this);
         LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
         choicesRV.setLayoutManager(manager);
         choicesRV.setAdapter(adapter);
 
     }
-
-
 
     /**
      * Connect to the Firebase database
@@ -132,6 +132,12 @@ public class PollActivity extends AppCompatActivity {
                                             PollItem pi = new PollItem(attributes.get("Name").toString(),
                                                     Integer.parseInt(attributes.get("Votes").toString()));
                                             pollItems.add(pi);
+                                        }
+                                        if (item.getKey().equals("Voters")) {
+                                            Map<String, Object> attributes = (Map<String, Object>) item.getValue();
+                                            if (attributes.containsKey(mAuth.getCurrentUser().getUid())) {
+                                                selectedItem = Integer.parseInt(attributes.get(mAuth.getCurrentUser().getUid()).toString());
+                                            }
                                         }
                                     }
                                     setupRecyclerView();
