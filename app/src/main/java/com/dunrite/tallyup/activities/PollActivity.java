@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.dunrite.tallyup.Poll;
 import com.dunrite.tallyup.PollItem;
 import com.dunrite.tallyup.R;
-import com.dunrite.tallyup.RecyclerItemClickListener;
 import com.dunrite.tallyup.adapters.PollChoiceAdapter;
 import com.dunrite.tallyup.utility.Utils;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -64,7 +63,6 @@ public class PollActivity extends AppCompatActivity {
             questionText.setText(intent.getStringExtra("pollQuestion"));
 
         mAuth = FirebaseAuth.getInstance();
-
     }
 
 
@@ -97,25 +95,14 @@ public class PollActivity extends AppCompatActivity {
     }
 
     public void setupRecyclerView() {
-        adapter = new PollChoiceAdapter(pollItems);
+        adapter = new PollChoiceAdapter(pollItems, this);
         LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
         choicesRV.setLayoutManager(manager);
         choicesRV.setAdapter(adapter);
-        choicesRV.addOnItemTouchListener(
-                new RecyclerItemClickListener(this, choicesRV,
-                        new RecyclerItemClickListener.OnItemClickListener(){
-                            @Override
-                            public void onItemClick(View view, int position){
-
-                            }
-                            @Override
-                            public void onItemLongClick(View view, int position) {
-
-                            }
-
-                        }));
 
     }
+
+
 
     /**
      * Connect to the Firebase database
