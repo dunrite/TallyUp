@@ -101,7 +101,11 @@ public class PollActivity extends AppCompatActivity {
         LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
         choicesRV.setLayoutManager(manager);
         choicesRV.setAdapter(adapter);
+    }
 
+    public void updateChoice(int prev, int curr) {
+        mDatabase.child("Voters").child(mAuth.getCurrentUser().getUid()).setValue(curr);
+        //mDatabase.child("Item" + (prev + 1)).child("Votes").
     }
 
     /**

@@ -59,6 +59,7 @@ public class PollChoiceAdapter extends RecyclerView.Adapter<PollChoiceAdapter.Vi
                 selectedPos = getAdapterPosition();
                 notifyItemChanged(selectedPos);
                 notifyItemChanged(lastSelectedPos);
+                activity.updateChoice(lastSelectedPos, selectedPos);
             }
         }
     }
