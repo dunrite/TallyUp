@@ -126,16 +126,28 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    public boolean userIsInPoll(String pid, Map<String, Object> attributes) {
-        //for ( poll.get("Voters").get())
+    /**
+     * Checks if user is in the poll or not
+     * @param attributes contents of poll
+     * @return is in poll
+     */
+    public boolean userIsInPoll(Map<String, Object> attributes) {
         String uid = mAuth.getCurrentUser().getUid();
+        //check if user is owner
         if (uid.equals(attributes.get("OwnerID"))) {
             return true;
-        } else if (mDatabase.child(pid).child("Voters").child(uid) != null) {
-            return true;
+        }
+        //Check if user is a voter, but not owner
+        for (Map.Entry<String, Object> things : attributes.entrySet()) {
+            if (things.getKey().equals("Voters")) {
+                Map<String, Object> thing = (Map<String, Object>) things.getValue();
+                if (thing.containsKey(uid))
+                    return true;
+            }
         }
         return false;
     }
+
     /**
      * Connect to the Firebase database
      */
@@ -161,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
                                     for (Map.Entry<String, Object> poll : polls.entrySet()) {
                                         Map<String, Object> attributes = (Map<String, Object>) poll.getValue();
                                         // attributes = ExpireTime, Item0, Item1 etc
-                                        if(userIsInPoll(poll.getKey(), attributes)) {
+                                        if(userIsInPoll(attributes)) {
                                             ArrayListAnySize<PollItem> pollItems = new ArrayListAnySize<>();
                                             //Get the PollItems to later put in the Poll
                                             for (Map.Entry<String, Object> item : attributes.entrySet()) {
