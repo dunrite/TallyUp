@@ -69,7 +69,12 @@ public class UsersPollsAdapter extends RecyclerView.Adapter<UsersPollsAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         poll = mPolls.get(position);
-        String descText = poll.getVoteCount() + " people have voted. " + poll.getLeadingAnswers();
+        int voteCount = poll.getVoteCount();
+        String descText;
+        if (voteCount == 1)
+            descText = poll.getVoteCount() + " person has voted. " + poll.getLeadingAnswers();
+        else
+            descText = poll.getVoteCount() + " people have voted. " + poll.getLeadingAnswers();
 
         holder.question.setText(poll.getQuestion());
         holder.description.setText(descText);

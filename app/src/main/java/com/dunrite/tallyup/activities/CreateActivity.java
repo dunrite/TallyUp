@@ -73,7 +73,6 @@ public class CreateActivity extends AppCompatActivity {
     private HashMap<String, Object> constructChoice(EditText et) {
         HashMap<String, Object> temp = new HashMap<>();
         temp.put("Name", et.getText().toString());
-        temp.put("Votes", 0);
         return temp;
     }
 
