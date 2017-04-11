@@ -200,7 +200,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:clickable="true"
-        android:layout_margin="8dp"
+        android:layout_margin="16dp"
         android:src="@drawable/ic_check_24dp"
         android:tint="@color/colorAccent"/>
 

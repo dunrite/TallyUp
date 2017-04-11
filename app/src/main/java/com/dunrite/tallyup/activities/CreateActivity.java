@@ -1,5 +1,6 @@
 package com.dunrite.tallyup.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -41,6 +42,7 @@ public class CreateActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private String formattedQuestion;
+    private String pollID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +102,18 @@ public class CreateActivity extends AppCompatActivity {
 
                             newQuestion.put("OwnerID", mAuth.getCurrentUser().getUid());
                             mDatabase = FirebaseDatabase.getInstance().getReference("Polls");
-                            mDatabase.child(Utils.generateSaltString()).updateChildren(newQuestion);
+                            pollID = Utils.generateSaltString();
+                            mDatabase.child(pollID).updateChildren(newQuestion).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    //Open poll when created
+                                    Intent i = new Intent(getApplicationContext(), PollActivity.class);
+                                    i.putExtra("pollID", pollID);
+                                    i.putExtra("pollQuestion", formattedQuestion);
+                                    startActivity(i);
+                                }
+                            });
 
                             //login failure
                             if (!task.isSuccessful()) {
@@ -110,6 +123,7 @@ public class CreateActivity extends AppCompatActivity {
                             }
                         }
                     });
+
         } else {
             Snackbar.make(findViewById(R.id.activity_main), "No Internet Connection", Snackbar.LENGTH_INDEFINITE).setAction("RETRY", new View.OnClickListener() {
                 @Override
