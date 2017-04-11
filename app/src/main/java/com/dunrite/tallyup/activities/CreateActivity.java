@@ -86,13 +86,18 @@ public class CreateActivity extends AppCompatActivity {
                             Map<String, Object> newQuestion = new HashMap<>();
                             Map<String, Object> i0 = constructChoice(item0);
                             Map<String, Object> i1 = constructChoice(item1);
-                            Map<String, Object> i2 = constructChoice(item2);
-                            Map<String, Object> i3 = constructChoice(item3);
+                            if (!item2.getText().toString().equals("")) {
+                                Map<String, Object> i2 = constructChoice(item2);
+                                newQuestion.put("Item2", i2);
+                            }
+                            if (!item3.getText().toString().equals("")) {
+                                Map<String, Object> i3 = constructChoice(item3);
+                                newQuestion.put("Item2", i3);
+                            }
                             newQuestion.put("Question", q);
                             newQuestion.put("Item0", i0);
                             newQuestion.put("Item1", i1);
-                            newQuestion.put("Item2", i2);
-                            newQuestion.put("Item3", i3);
+
                             newQuestion.put("OwnerID", mAuth.getCurrentUser().getUid());
                             mDatabase = FirebaseDatabase.getInstance().getReference("Polls");
                             mDatabase.child(Utils.generateSaltString()).updateChildren(newQuestion);
