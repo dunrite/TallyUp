@@ -66,6 +66,7 @@ public class PollActivity extends AppCompatActivity {
             questionText.setText(intent.getStringExtra("pollQuestion"));
 
         mAuth = FirebaseAuth.getInstance();
+
     }
 
 
@@ -137,6 +138,9 @@ public class PollActivity extends AppCompatActivity {
                                             PollItem pi = new PollItem(attributes.get("Name").toString(), 0);
                                             pollItems.add(Character.getNumericValue(item.getKey().charAt(4)), pi);
                                         }
+                                        if (item.getKey().equals("Question")) {
+                                            questionText.setText(item.getValue().toString());
+                                        }
                                     }
                                     pollItems.removeAll(Collections.singleton(null)); //get rid of null crap
                                     //Determine which choice is selected by user and count all the votes
@@ -178,4 +182,5 @@ public class PollActivity extends AppCompatActivity {
             }).show();
         }
     }
+
 }

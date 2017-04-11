@@ -27,6 +27,12 @@ import com.dunrite.tallyup.R;
 import com.dunrite.tallyup.RecyclerItemClickListener;
 import com.dunrite.tallyup.adapters.UsersPollsAdapter;
 import com.dunrite.tallyup.utility.Utils;
+import com.google.android.gms.appinvite.AppInvite;
+import com.google.android.gms.appinvite.AppInviteInvitationResult;
+import com.google.android.gms.appinvite.AppInviteReferral;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -48,11 +54,12 @@ import butterknife.OnClick;
 /**
  * Main activity that shows active and closed polls for the user
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private ArrayList<Poll> pollsList;
     private UsersPollsAdapter adapter;
+    private GoogleApiClient mGoogleApiClient;
 
     @BindView(R.id.fab_create) FloatingActionButton fabCreate;
     @BindView(R.id.usersPolls) RecyclerView usersPollsRV;
@@ -64,6 +71,12 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setRecentsStyle();
 
+        // Build GoogleApiClient with AppInvite API for receiving deep links
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(AppInvite.API)
+                .build();
+
         mAuth = FirebaseAuth.getInstance();
         pollsList = new ArrayList<>();
 
@@ -71,6 +84,31 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, IntroActivity.class); //call Intro class
             startActivity(intent);
         }
+
+        // Check if this app was launched from a deep link. Setting autoLaunchDeepLink to true
+        // would automatically launch the deep link if one is found.
+        boolean autoLaunchDeepLink = true;
+        AppInvite.AppInviteApi.getInvitation(mGoogleApiClient, this, autoLaunchDeepLink)
+                .setResultCallback(
+                        new ResultCallback<AppInviteInvitationResult>() {
+                            @Override
+                            public void onResult(@NonNull AppInviteInvitationResult result) {
+                                if (result.getStatus().isSuccess()) {
+                                    // Extract deep link from Intent
+                                    Intent intent = result.getInvitationIntent();
+                                    String deepLink = AppInviteReferral.getDeepLink(intent);
+                                    Log.d("TallyUp.MainActivity", "Deep Link: " + deepLink);
+                                    // Handle the deep link. For example, open the linked
+                                    // content, or apply promotional credit to the user's
+                                    // account.
+                                    String id = deepLink.substring(deepLink.lastIndexOf("/"));
+                                    Poll p = new Poll(id, "test");
+                                    configureIntent(p);
+                                } else {
+                                    Log.d("TallyUp.PollActivity", "getInvitation: no deep link found.");
+                                }
+                            }
+                        });
 
     }
 
@@ -256,5 +294,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }).show();
         }
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }

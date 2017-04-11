@@ -11,8 +11,16 @@
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="dunriteapps.com/"
+                    android:pathPrefix="/tallyup/poll/"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
         <activity
@@ -23,14 +31,16 @@
         <activity
             android:name=".activities.PollActivity"
             android:label="@string/take_poll"
-            android:parentActivityName=".activities.MainActivity" />
+            android:parentActivityName=".activities.MainActivity">
+        </activity>
         <activity
             android:name=".activities.CreateActivity"
             android:label="@string/create_new_poll"
             android:parentActivityName=".activities.MainActivity" />
-        <activity android:name=".activities.AboutActivity"
+        <activity
+            android:name=".activities.AboutActivity"
             android:label="@string/about"
-            android:parentActivityName=".activities.MainActivity"/>
+            android:parentActivityName=".activities.MainActivity" />
     </application>
 
 </manifest>
