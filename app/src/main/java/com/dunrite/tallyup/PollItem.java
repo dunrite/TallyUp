@@ -27,6 +27,12 @@ public class PollItem {
     public void setVotes(int votes) {
         this.votes = votes;
     }
+
+    public void addVote() {
+        votes++;
+    }
+
+
 }
 
 

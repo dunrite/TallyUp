@@ -54,7 +54,6 @@ public class CreateActivity extends AppCompatActivity {
     public void onClickFAB() {
         if (validQuestion()) {
             formattedQuestion = formatQuestion(question.getText().toString());
-
             pushQuestionToFirebase(formattedQuestion);
         }
     }

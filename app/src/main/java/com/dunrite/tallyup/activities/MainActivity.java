@@ -18,7 +18,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.dunrite.tallyup.ArrayListAnySize;
 import com.dunrite.tallyup.Poll;
+import com.dunrite.tallyup.PollItem;
 import com.dunrite.tallyup.R;
 import com.dunrite.tallyup.RecyclerItemClickListener;
 import com.dunrite.tallyup.adapters.UsersPollsAdapter;
@@ -34,6 +36,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -154,14 +157,33 @@ public class MainActivity extends AppCompatActivity {
                                     pollsList.clear();
 
                                     Map<String, Object> polls = (Map<String, Object>) dataSnapshot.getValue();
-                                    //Log.d("polls", polls.toString());
+
                                     for (Map.Entry<String, Object> poll : polls.entrySet()) {
                                         Map<String, Object> attributes = (Map<String, Object>) poll.getValue();
+                                        // attributes = ExpireTime, Item0, Item1 etc
                                         if(userIsInPoll(poll.getKey(), attributes)) {
-                                            //Poll (String q, String t, Boolean m, Map<String, Integer> o) {
-                                            pollsList.add(new Poll(poll.getKey(), attributes.get("Question").toString()));
-
+                                            ArrayListAnySize<PollItem> pollItems = new ArrayListAnySize<>();
+                                            //Get the PollItems to later put in the Poll
+                                            for (Map.Entry<String, Object> item : attributes.entrySet()) {
+                                                if (item.getKey().startsWith("Item")) {
+                                                    Map<String, Object> attr = (Map<String, Object>) item.getValue();
+                                                    PollItem pi = new PollItem(attr.get("Name").toString(), 0);
+                                                    pollItems.add(Character.getNumericValue(item.getKey().charAt(4)), pi);
+                                                }
+                                            }
+                                            pollItems.removeAll(Collections.singleton(null)); //get rid of null crap
+                                            //Tally votes for each PollItem
+                                            for (Map.Entry<String, Object> item : attributes.entrySet()) {
+                                                if (item.getKey().equals("Voters")) {
+                                                    Map<String, Object> attr = (Map<String, Object>) item.getValue();
+                                                    for (Map.Entry<String, Object> vote : attr.entrySet()) {
+                                                        pollItems.get(Integer.parseInt(vote.getValue().toString())).addVote();
+                                                    }
+                                                }
+                                            }
+                                            pollsList.add(new Poll(poll.getKey(), attributes.get("Question").toString(), "type", false, pollItems));
                                         }
+
                                     }
                                     setupRecyclerView();
                                 }

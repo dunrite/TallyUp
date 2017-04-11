@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dunrite.tallyup.ArrayListAnySize;
-import com.dunrite.tallyup.Poll;
 import com.dunrite.tallyup.PollItem;
 import com.dunrite.tallyup.R;
 import com.dunrite.tallyup.adapters.PollChoiceAdapter;
@@ -40,9 +39,10 @@ import butterknife.ButterKnife;
  */
 public class PollActivity extends AppCompatActivity {
     private String pollID;
-    private Poll currentPoll;
+    //private Poll currentPoll;
     private int selectedItem; //If the user previously participated, we need to remember their choice
     private ArrayListAnySize<PollItem> pollItems;
+    private int[] voteCounts;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private PollChoiceAdapter adapter;
@@ -134,18 +134,22 @@ public class PollActivity extends AppCompatActivity {
                                     for (Map.Entry<String, Object> item : items.entrySet()) {
                                         if (item.getKey().startsWith("Item")) {
                                             Map<String, Object> attributes = (Map<String, Object>) item.getValue();
-                                            PollItem pi = new PollItem(attributes.get("Name").toString(),
-                                                    Integer.parseInt(attributes.get("Votes").toString()));
+                                            PollItem pi = new PollItem(attributes.get("Name").toString(), 0);
                                             pollItems.add(Character.getNumericValue(item.getKey().charAt(4)), pi);
                                         }
+                                    }
+                                    pollItems.removeAll(Collections.singleton(null)); //get rid of null crap
+                                    //Determine which choice is selected by user and count all the votes
+                                    for (Map.Entry<String, Object> item : items.entrySet()) {
                                         if (item.getKey().equals("Voters")) {
                                             Map<String, Object> attributes = (Map<String, Object>) item.getValue();
-                                            if (attributes.containsKey(mAuth.getCurrentUser().getUid())) {
-                                                selectedItem = Integer.parseInt(attributes.get(mAuth.getCurrentUser().getUid()).toString());
+                                            for (Map.Entry<String, Object> vote : attributes.entrySet()) {
+                                                if (vote.getKey().equals(mAuth.getCurrentUser().getUid()))
+                                                    selectedItem = Integer.parseInt(vote.getValue().toString());
+                                                pollItems.get(Integer.parseInt(vote.getValue().toString())).addVote();
                                             }
                                         }
                                     }
-                                    pollItems.removeAll(Collections.singleton(null));
                                     setupRecyclerView();
                                 }
 

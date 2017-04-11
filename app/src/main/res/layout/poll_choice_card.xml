@@ -44,6 +44,14 @@
                 android:textSize="25sp"
                 android:layout_toEndOf="@id/circle"
                 android:layout_centerVertical="true"/>
+            <TextView
+                android:id="@+id/vote_count"
+                android:text="888 Votes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="8dp"/>
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>

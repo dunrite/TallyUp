@@ -41,6 +41,7 @@ public class PollChoiceAdapter extends RecyclerView.Adapter<PollChoiceAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         @BindView(R.id.choice_card_view) CardView card;
         @BindView(R.id.choice_name) TextView  choiceName;
+        @BindView(R.id.vote_count) TextView voteCount;
         @BindView(R.id.checkmark) ImageView checkmark;
 
         private Context context;
@@ -88,15 +89,19 @@ public class PollChoiceAdapter extends RecyclerView.Adapter<PollChoiceAdapter.Vi
     public void onBindViewHolder(PollChoiceAdapter.ViewHolder holder, int position) {
         pollItem = choices.get(position);
         holder.choiceName.setText(pollItem.getName());
+        String voteString = pollItem.getVotes() + " Votes";
+        holder.voteCount.setText(voteString);
 
         if (position == selectedPos) {
             holder.checkmark.setVisibility(View.VISIBLE);
             holder.card.setCardBackgroundColor(ContextCompat.getColor(activity, R.color.colorPrimary));
             holder.choiceName.setTextColor(ContextCompat.getColor(activity, R.color.colorAccent));
+            holder.voteCount.setTextColor(ContextCompat.getColor(activity, R.color.colorAccent));
         } else {
             holder.checkmark.setVisibility(View.GONE);
             holder.card.setCardBackgroundColor(ContextCompat.getColor(activity, R.color.colorAccent));
             holder.choiceName.setTextColor(ContextCompat.getColor(activity, R.color.colorPrimary));
+            holder.voteCount.setTextColor(ContextCompat.getColor(activity, R.color.colorPrimary));
         }
        // setAnimation(holder.card, position);
     }
