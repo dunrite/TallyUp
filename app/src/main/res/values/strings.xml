@@ -12,6 +12,7 @@
     <string name="version">Version</string>
     <string name="developers">Developers</string>
     <string name="dev_names">Jaxon Wright\nKent Sinclair</string>
-    <string name="libraries">AppIntro by Paolo Rotolo\nButterknife by Jake Wharton\nFirebase by Google</string>
+    <string name="libraries">AppIntro by Paolo Rotolo\nButterknife by Jake Wharton\nFirebase by Google\nRetrofit by Square</string>
     <string name="about">About</string>
+    <string name="app_code">wb975</string>
 </resources>

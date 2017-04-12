@@ -5,8 +5,27 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.util.Log;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.dunrite.tallyup.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Utility class for various common methods
@@ -83,4 +102,101 @@ public class Utils {
             return string;
         }
     }
+
+    public static Uri buildDeepLink(@NonNull Uri deepLink, int minVersion, boolean isAd, Context c) {
+        // Get the unique appcode for this app.
+        String appCode = c.getResources().getString(R.string.app_code);
+
+        // Get this app's package name.
+        String packageName = c.getPackageName();
+
+        // Build the link with all required parameters
+        Uri.Builder builder = new Uri.Builder()
+                .scheme("https")
+                .authority(appCode + ".app.goo.gl")
+                .path("/")
+                .appendQueryParameter("link", deepLink.toString())
+                .appendQueryParameter("apn", packageName);
+
+        // If the deep link is used in an advertisement, this value must be set to 1.
+        if (isAd) {
+            builder.appendQueryParameter("ad", "1");
+        }
+
+        // Minimum version is optional.
+        if (minVersion > 0) {
+            builder.appendQueryParameter("amv", Integer.toString(minVersion));
+        }
+
+        // Return the completed deep link.
+        return builder.build();
+    }
+
+    public static JSONObject buildJSONBody(String pollID) {
+        JSONObject jsonObject = null;
+
+        String body = "{\"dynamicLinkInfo\":" +
+                            "{\"dynamicLinkDomain\":\"wb975.app.goo.gl\"," +
+                            "\"link\": \"https://dunriteapps.com/tallyup/poll/"+ pollID+"\"," +
+                            "\"androidInfo\":{" +
+                                "\"androidPackageName\": \"com.dunrite.tallyup\"}," +
+                            "\"socialMetaTagInfo\":{" +
+                                "\"socialTitle\": \"Take My TallyUp Poll\"," +
+                                "\"socialDescription\": \"This is a description\"," +
+                                "\"socialImageLink\": \"http://i.imgur.com/X1iqPID.png\"}}," +
+                        "\"suffix\":{" +
+                            "\"option\":\"SHORT\"}" +
+                      "}";
+        Log.d("BODY", body);
+        try {
+            jsonObject = new JSONObject(body);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    public static String buildDeepLink(Context c, String pollID) {
+        String url = "https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=" + Constants.FIREBASE_API_KEY;
+        final String[] resp = {""};
+        try {
+            Log.d("JSON", buildJSONBody(pollID).toString(5));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest postRequest = new JsonObjectRequest(
+                Request.Method.POST, url, buildJSONBody(pollID),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, response.toString());
+                        try {
+                            resp[0] = response.getString("shortLink");
+                            Log.d("Response", resp[0]);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+            }
+        }) {
+            /**
+             * Passing some request headers
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+        };
+        Volley.newRequestQueue(c).add(postRequest);
+        return resp[0];
+    }
+
 }

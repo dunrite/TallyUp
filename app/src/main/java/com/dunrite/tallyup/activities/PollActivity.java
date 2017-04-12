@@ -46,6 +46,7 @@ public class PollActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private PollChoiceAdapter adapter;
+    private final String deepLinkPrefix = "https//dunriteapps.com/tallyup/poll/";
 
     @BindView(R.id.questionText) TextView questionText;
     @BindView(R.id.recyclerview_choices) RecyclerView choicesRV;
@@ -65,6 +66,7 @@ public class PollActivity extends AppCompatActivity {
         if (intent.hasExtra("pollQuestion"))
             questionText.setText(intent.getStringExtra("pollQuestion"));
 
+        Log.d("PollAcivity.onCreate", "PollID:" + pollID);
         mAuth = FirebaseAuth.getInstance();
 
     }
@@ -92,8 +94,12 @@ public class PollActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.poll_id_share) {
-            //TODO: Share the poll
-            Toast.makeText(this, "TODO: Make Sharing Work", Toast.LENGTH_SHORT).show();
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            Log.d("PollAcivity.onOptions", "PollID:" + pollID);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "Take my poll in TallyUp.\n" + Utils.buildDeepLink(this, pollID));
+            sendIntent.setType("text/plain");
+            startActivity(sendIntent);
         }
         return super.onOptionsItemSelected(item);
     }
