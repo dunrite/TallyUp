@@ -86,8 +86,7 @@ public class Utils {
             int index = (int) (rnd.nextFloat() * SALTCHARS.length());
             salt.append(SALTCHARS.charAt(index));
         }
-        String saltStr = salt.toString();
-        return saltStr;
+        return salt.toString();
     }
 
     public static String replaceLast(String string, String toReplace, String replacement) {
@@ -113,7 +112,7 @@ public class Utils {
                             "\"socialMetaTagInfo\":{" +
                                 "\"socialTitle\": \"Take My TallyUp Poll\"," +
                                 "\"socialDescription\": \"This is a description\"," +
-                                "\"socialImageLink\": \"http://i.imgur.com/X1iqPID.png\"}}," +
+                                "\"socialImageLink\": \"http://i.imgur.com/j7mMh71.png\"}}," +
                         "\"suffix\":{" +
                             "\"option\":\"SHORT\"}" +
                       "}";
