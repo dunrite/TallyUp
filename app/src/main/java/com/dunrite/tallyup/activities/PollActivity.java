@@ -94,15 +94,20 @@ public class PollActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.poll_id_share) {
-            Intent sendIntent = new Intent();
-            sendIntent.setAction(Intent.ACTION_SEND);
-            Log.d("PollAcivity.onOptions", "PollID:" + pollID);
-            sendIntent.putExtra(Intent.EXTRA_TEXT, "Take my poll in TallyUp.\n" + Utils.buildDeepLink(this, pollID));
-            sendIntent.setType("text/plain");
-            startActivity(sendIntent);
+            Utils.buildDeepLink(this, pollID);
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+    public void launchShareIntent(String shareURL) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "Take my poll in TallyUp.\n" + shareURL);
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
+    }
+
 
     public void setupRecyclerView() {
         adapter = new PollChoiceAdapter(pollItems, selectedItem, this);

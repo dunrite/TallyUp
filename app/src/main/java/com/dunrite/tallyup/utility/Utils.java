@@ -17,6 +17,7 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.dunrite.tallyup.R;
+import com.dunrite.tallyup.activities.PollActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -147,7 +148,7 @@ public class Utils {
                         "\"suffix\":{" +
                             "\"option\":\"SHORT\"}" +
                       "}";
-        Log.d("BODY", body);
+        //Log.d("BODY", body);
         try {
             jsonObject = new JSONObject(body);
 
@@ -157,14 +158,9 @@ public class Utils {
         return jsonObject;
     }
 
-    public static String buildDeepLink(Context c, String pollID) {
+    public static void buildDeepLink(final PollActivity a, String pollID) {
         String url = "https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=" + Constants.FIREBASE_API_KEY;
-        final String[] resp = {""};
-        try {
-            Log.d("JSON", buildJSONBody(pollID).toString(5));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
         JsonObjectRequest postRequest = new JsonObjectRequest(
                 Request.Method.POST, url, buildJSONBody(pollID),
                 new Response.Listener<JSONObject>() {
@@ -172,8 +168,7 @@ public class Utils {
                     public void onResponse(JSONObject response) {
                         Log.d(TAG, response.toString());
                         try {
-                            resp[0] = response.getString("shortLink");
-                            Log.d("Response", resp[0]);
+                            a.launchShareIntent(response.get("shortLink").toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -195,8 +190,6 @@ public class Utils {
                 return headers;
             }
         };
-        Volley.newRequestQueue(c).add(postRequest);
-        return resp[0];
+        Volley.newRequestQueue(a).add(postRequest);
     }
-
 }
