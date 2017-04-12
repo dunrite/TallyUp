@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -16,7 +14,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.dunrite.tallyup.R;
 import com.dunrite.tallyup.activities.PollActivity;
 
 import org.json.JSONException;
@@ -104,34 +101,6 @@ public class Utils {
         }
     }
 
-    public static Uri buildDeepLink(@NonNull Uri deepLink, int minVersion, boolean isAd, Context c) {
-        // Get the unique appcode for this app.
-        String appCode = c.getResources().getString(R.string.app_code);
-
-        // Get this app's package name.
-        String packageName = c.getPackageName();
-
-        // Build the link with all required parameters
-        Uri.Builder builder = new Uri.Builder()
-                .scheme("https")
-                .authority(appCode + ".app.goo.gl")
-                .path("/")
-                .appendQueryParameter("link", deepLink.toString())
-                .appendQueryParameter("apn", packageName);
-
-        // If the deep link is used in an advertisement, this value must be set to 1.
-        if (isAd) {
-            builder.appendQueryParameter("ad", "1");
-        }
-
-        // Minimum version is optional.
-        if (minVersion > 0) {
-            builder.appendQueryParameter("amv", Integer.toString(minVersion));
-        }
-
-        // Return the completed deep link.
-        return builder.build();
-    }
 
     public static JSONObject buildJSONBody(String pollID) {
         JSONObject jsonObject = null;
