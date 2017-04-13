@@ -51,6 +51,11 @@ public class Utils {
         return sharedPref.getBoolean("first", true);
     }
 
+    public static boolean isComingFromIntroSignIn(Activity a) {
+        SharedPreferences sharedPref = a.getSharedPreferences("introSignIn", Context.MODE_PRIVATE);
+        return sharedPref.getBoolean("introSignIn", false);
+    }
+
     public static boolean isOnline(Context context) {
         ConnectivityManager connMgr = (ConnectivityManager)
                 context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -62,6 +67,13 @@ public class Utils {
     /*****************************************************************************
      * Setters
      *****************************************************************************/
+
+    public static void cameFromIntroSignIn(Activity a, boolean b) {
+        SharedPreferences sharedPref = a.getSharedPreferences("introSignIn", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean("introSignIn", b);
+        editor.apply();
+    }
 
     /**
      * App has been launched, set first to false

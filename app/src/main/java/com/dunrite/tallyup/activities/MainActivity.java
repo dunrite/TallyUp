@@ -8,7 +8,9 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,6 +37,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -56,12 +60,13 @@ import static com.dunrite.tallyup.R.menu.main;
 public class MainActivity extends FirebaseActivity {
     private ArrayList<Poll> pollsList;
     private UsersPollsAdapter adapter;
-    private boolean fromIntro;
 
     @BindView(R.id.fab_create)
     FloatingActionButton fabCreate;
     @BindView(R.id.usersPolls)
     RecyclerView usersPollsRV;
+    @BindView(R.id.activity_main)
+    CoordinatorLayout mainView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,22 +74,45 @@ public class MainActivity extends FirebaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setRecentsStyle();
-
         pollsList = new ArrayList<>();
-
-
         checkForDeepLink();
+
+        // [START auth_state_listener]
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    if (user.getEmail() != null) {
+                        Snackbar.make(mainView,
+                                "Logged in as " + user.getEmail(), Snackbar.LENGTH_SHORT).show();
+                    } else {
+                        Snackbar.make(mainView,
+                                "Logged in as " + user.getUid().substring(0,5), Snackbar.LENGTH_SHORT).show();
+                    }
+                } else {
+                    // User is signed out
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+                // [START_EXCLUDE]
+                //TODO modify the signIn menu item to sign out
+                // [END_EXCLUDE]
+            }
+        };
+        // [END auth_state_listener]
     }
 
     @Override
     public void onStart() {
         super.onStart();
+
         mAuth.addAuthStateListener(mAuthListener);
         if (Utils.isFirstLaunch(this)) {
-            fromIntro = true;
             Intent intent = new Intent(this, IntroActivity.class); //call Intro class
             startActivityForResult(intent, RC_SIGN_IN);
-        } else if (!fromIntro){
+        } else if (!Utils.isComingFromIntroSignIn(this)){
             signInToFirebase();
         }
     }
@@ -256,7 +284,6 @@ public class MainActivity extends FirebaseActivity {
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
-                fromIntro = false;
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthGoogle(account);

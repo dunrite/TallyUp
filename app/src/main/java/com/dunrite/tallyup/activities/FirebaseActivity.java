@@ -23,7 +23,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 
@@ -58,27 +57,7 @@ public class FirebaseActivity extends AppCompatActivity implements GoogleApiClie
 
         mAuth = FirebaseAuth.getInstance();
 
-        // [START auth_state_listener]
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    Snackbar.make(getCurrentFocus(),
-                            "Logged in as " + user.getEmail(), Snackbar.LENGTH_SHORT).show();
-                } else {
-                    // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                }
-                // [START_EXCLUDE]
-//                updateUI(user);
-                //TODO modify the signIn menu item to sign out
-                // [END_EXCLUDE]
-            }
-        };
-        // [END auth_state_listener]
+
     }
 
     public void signInToFirebase() {
@@ -89,6 +68,7 @@ public class FirebaseActivity extends AppCompatActivity implements GoogleApiClie
                 silentGoogleLogin();
             }
         } else {
+            Log.d("signInToFirebase", "Second else");
             firebaseAuthAnonymous();
         }
     }
@@ -155,6 +135,7 @@ public class FirebaseActivity extends AppCompatActivity implements GoogleApiClie
                         }
                     });
         }
+
     }
 
     /**

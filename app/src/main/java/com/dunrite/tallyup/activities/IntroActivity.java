@@ -87,6 +87,7 @@ public class IntroActivity extends AppIntro2 implements GoogleApiClient.OnConnec
                 intent.putExtra("googleSignInAccount", account);
                 setResult(RC_SIGN_IN, intent);
                 Utils.appHasLaunched(this);
+                Utils.cameFromIntroSignIn(this, true);
                 finish();
             } else {
                 // Google Sign In failed, update UI appropriately
