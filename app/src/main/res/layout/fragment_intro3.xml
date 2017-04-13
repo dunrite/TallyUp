@@ -1,30 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:id="@+id/gso_button"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center"
-        android:textColor="#ffffff"
-        android:textSize="28sp"
         android:layout_marginTop="96dp"
-        android:text="@string/sign_up" />
-
+        android:gravity="center"
+        android:text="@string/sign_up"
+        android:textColor="#ffffff"
+        android:textSize="28sp" />
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center"
-        android:textColor="#ffffff"
-        android:textSize="20sp"
         android:layout_margin="16dp"
         android:layout_marginTop="48dp"
-        android:text="@string/account_creation_desc" />
+        android:gravity="center"
+        android:text="@string/account_creation_desc"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/sign_in_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="16dp"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/common_google_signin_btn_text_light_focused"
+        android:gravity="center"
+        android:text="@string/common_signin_button_text_long" />
 </LinearLayout>

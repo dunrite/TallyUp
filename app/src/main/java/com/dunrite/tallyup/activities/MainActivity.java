@@ -27,16 +27,38 @@ import com.dunrite.tallyup.R;
 import com.dunrite.tallyup.RecyclerItemClickListener;
 import com.dunrite.tallyup.adapters.UsersPollsAdapter;
 import com.dunrite.tallyup.utility.Utils;
+
+
 import com.google.android.gms.appinvite.AppInvite;
 import com.google.android.gms.appinvite.AppInviteInvitationResult;
 import com.google.android.gms.appinvite.AppInviteReferral;
+
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.OptionalPendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+
+
+
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -51,18 +73,28 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.dunrite.tallyup.R.menu.main;
+
 /**
  * Main activity that shows active and closed polls for the user
  */
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
     private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference mDatabase;
     private ArrayList<Poll> pollsList;
     private UsersPollsAdapter adapter;
     private GoogleApiClient mGoogleApiClient;
+    private GoogleSignInOptions gso;
 
-    @BindView(R.id.fab_create) FloatingActionButton fabCreate;
-    @BindView(R.id.usersPolls) RecyclerView usersPollsRV;
+    private static final String TAG = "GoogleActivity";
+    private static final int RC_SIGN_IN = 9001;
+
+
+    @BindView(R.id.fab_create)
+    FloatingActionButton fabCreate;
+    @BindView(R.id.usersPolls)
+    RecyclerView usersPollsRV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,16 +103,51 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         ButterKnife.bind(this);
         setRecentsStyle();
 
-        // Build GoogleApiClient with AppInvite API for receiving deep links
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        // Build GoogleApiClient with AppInvite API for receiving deep links AND for the firebase stuff
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
                 .addApi(AppInvite.API)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
+
+
+
+
+
+
         mAuth = FirebaseAuth.getInstance();
+
+        // [START auth_state_listener]
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    Toast.makeText(MainActivity.this, "Logged in as: " + user.getEmail(),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    // User is signed out
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+                // [START_EXCLUDE]
+//                updateUI(user);
+                //TODO modify the signIn menu item to sign out
+                // [END_EXCLUDE]
+            }
+        };
+        // [END auth_state_listener]
+
         pollsList = new ArrayList<>();
 
-        if(Utils.isFirstLaunch(this)) {
+        if (Utils.isFirstLaunch(this)) {
             Intent intent = new Intent(this, IntroActivity.class); //call Intro class
             startActivity(intent);
         }
@@ -115,23 +182,36 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     @Override
     public void onStart() {
         super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
         signInToFirebase();
     }
 
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
+
+
     /**
      * Inflate the overflow menu in the actionbar
+     *
      * @param menu the menu
      * @return inflated
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(main, menu);
         return true;
     }
 
     /**
      * Handle the overflow menu in the actionbar
+     *
      * @param item the selected item
      * @return super call
      */
@@ -144,9 +224,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         if (id == R.id.action_about) {
             Intent intent = new Intent(this, AboutActivity.class);
             startActivity(intent);
+        } else if (id == R.id.action_sign_in){
+            signIn();
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     @OnClick(R.id.fab_create)
     public void onClickFab() {
@@ -175,11 +258,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         usersPollsRV.setAdapter(adapter);
         usersPollsRV.addOnItemTouchListener(
                 new RecyclerItemClickListener(this, usersPollsRV,
-                        new RecyclerItemClickListener.OnItemClickListener(){
+                        new RecyclerItemClickListener.OnItemClickListener() {
                             @Override
-                            public void onItemClick(View view, int position){
+                            public void onItemClick(View view, int position) {
                                 configureIntent(adapter.getPositionInfo(position));
                             }
+
                             @Override
                             public void onItemLongClick(View view, int position) {
 
@@ -198,6 +282,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     /**
      * Checks if user is in the poll or not
+     *
      * @param attributes contents of poll
      * @return is in poll
      */
@@ -222,7 +307,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
      * Connect to the Firebase database
      */
     public void signInToFirebase() {
-        if(Utils.isOnline(getApplicationContext())) {
+        if (Utils.isOnline(getApplicationContext())) {
             mAuth.signInAnonymously()
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -243,7 +328,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                                     for (Map.Entry<String, Object> poll : polls.entrySet()) {
                                         Map<String, Object> attributes = (Map<String, Object>) poll.getValue();
                                         // attributes = ExpireTime, Item0, Item1 etc
-                                        if(userIsInPoll(attributes)) {
+                                        if (userIsInPoll(attributes)) {
                                             ArrayListAnySize<PollItem> pollItems = new ArrayListAnySize<>();
                                             //Get the PollItems to later put in the Poll
                                             for (Map.Entry<String, Object> item : attributes.entrySet()) {
@@ -300,4 +385,51 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
+    private void signIn() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            if (result.isSuccess()) {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = result.getSignInAccount();
+                firebaseAuthWithGoogle(account);
+            } else {
+                // Google Sign In failed, update UI appropriately
+                // ...
+            }
+        }
+    }
+
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
+
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "signInWithCredential", task.getException());
+
+                        }
+                        // ...
+                    }
+                });
+    }
+
+
 }
