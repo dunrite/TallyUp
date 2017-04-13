@@ -1,208 +1,231 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipToPadding="false">
+    tools:context="com.dunrite.tallyup.activities.MainActivity">
 
-    <EditText
-        android:id="@+id/questionText"
-        style="@style/Widget.AppCompat.EditText"
-        android:layout_width="match_parent"
+    <android.support.design.widget.AppBarLayout
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_margin="8dp"
-        android:hint="Question"
-        android:inputType="text" />
+        android:layout_width="match_parent">
 
-    <CheckBox
-        android:id="@+id/multiSelect"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="@string/multi_select"
-        android:layout_below="@id/questionText"/>
-
-    <!--<TextView-->
-        <!--android:id="@+id/spinnerLabel"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentStart="true"-->
-        <!--android:layout_below="@+id/multiSelect"-->
-        <!--android:layout_marginStart="16dp"-->
-        <!--android:text="Question Type" />-->
-    <!--<Spinner-->
-        <!--android:id="@+id/type_spinner"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/multiSelect"-->
-        <!--android:layout_toEndOf="@+id/spinnerLabel"/>-->
-    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/create_card_view1"
-        android:layout_gravity="start"
-        android:layout_width="match_parent"
-        android:layout_height="104dp"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:layout_below="@+id/multiSelect"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="2dp"
-        android:clickable="true"
-        card_view:cardCornerRadius="2dp"
-        card_view:cardElevation="3dp">
-
-        <RelativeLayout
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/AppTheme.AppBarOverlay"/>
 
-            <ImageView
-                android:id="@+id/circle1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/circle"
-                android:layout_margin="8dp"
-                android:layout_centerVertical="true"/>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false">
+
             <EditText
-                android:id="@+id/item0"
+                android:id="@+id/questionText"
                 style="@style/Widget.AppCompat.EditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:layout_toEndOf="@id/circle1"
-                android:layout_centerVertical="true"
                 android:layout_margin="8dp"
-                android:hint="Choice 1"
+                android:hint="Question"
                 android:inputType="text" />
-        </RelativeLayout>
 
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/create_card_view2"
-        android:layout_gravity="start"
-        android:layout_width="match_parent"
-        android:layout_height="104dp"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:layout_below="@+id/create_card_view1"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="2dp"
-        android:clickable="true"
-        card_view:cardCornerRadius="2dp"
-        card_view:cardElevation="3dp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/circle2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/circle"
-                android:layout_margin="8dp"
-                android:layout_centerVertical="true"/>
-            <EditText
-                android:id="@+id/item1"
-                style="@style/Widget.AppCompat.EditText"
+            <CheckBox
+                android:id="@+id/multiSelect"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:layout_toEndOf="@id/circle2"
-                android:layout_centerVertical="true"
                 android:layout_margin="8dp"
-                android:hint="Choice 2"
-                android:inputType="text" />
-        </RelativeLayout>
+                android:text="@string/multi_select"
+                android:layout_below="@id/questionText"/>
 
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/create_card_view3"
-        android:layout_gravity="start"
-        android:layout_width="match_parent"
-        android:layout_height="104dp"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:layout_below="@+id/create_card_view2"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="2dp"
-        android:clickable="true"
-        card_view:cardCornerRadius="2dp"
-        card_view:cardElevation="3dp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/circle3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/circle"
-                android:layout_margin="8dp"
-                android:layout_centerVertical="true"/>
-            <EditText
-                android:id="@+id/item2"
-                style="@style/Widget.AppCompat.EditText"
+            <!--<TextView-->
+            <!--android:id="@+id/spinnerLabel"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentStart="true"-->
+            <!--android:layout_below="@+id/multiSelect"-->
+            <!--android:layout_marginStart="16dp"-->
+            <!--android:text="Question Type" />-->
+            <!--<Spinner-->
+            <!--android:id="@+id/type_spinner"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/multiSelect"-->
+            <!--android:layout_toEndOf="@+id/spinnerLabel"/>-->
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/create_card_view1"
+                android:layout_gravity="start"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:layout_toEndOf="@id/circle3"
-                android:layout_centerVertical="true"
-                android:layout_margin="8dp"
-                android:hint="Choice 3"
-                android:inputType="text" />
-        </RelativeLayout>
+                android:layout_height="104dp"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_below="@+id/multiSelect"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="2dp"
+                android:clickable="true"
+                card_view:cardCornerRadius="2dp"
+                card_view:cardElevation="3dp">
 
-    </android.support.v7.widget.CardView>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/create_card_view4"
-        android:layout_gravity="start"
-        android:layout_width="match_parent"
-        android:layout_height="104dp"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:layout_below="@+id/create_card_view3"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="2dp"
-        android:clickable="true"
-        card_view:cardCornerRadius="2dp"
-        card_view:cardElevation="3dp">
+                    <ImageView
+                        android:id="@+id/circle1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/circle"
+                        android:layout_margin="8dp"
+                        android:layout_centerVertical="true"/>
+                    <EditText
+                        android:id="@+id/item0"
+                        style="@style/Widget.AppCompat.EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:layout_toEndOf="@id/circle1"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="8dp"
+                        android:hint="Choice 1"
+                        android:inputType="text" />
+                </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            </android.support.v7.widget.CardView>
 
-            <ImageView
-                android:id="@+id/circle4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/circle"
-                android:layout_margin="8dp"
-                android:layout_centerVertical="true"/>
-            <EditText
-                android:id="@+id/item3"
-                style="@style/Widget.AppCompat.EditText"
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/create_card_view2"
+                android:layout_gravity="start"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:layout_toEndOf="@id/circle4"
-                android:layout_centerVertical="true"
-                android:layout_margin="8dp"
-                android:hint="Choice 4"
-                android:inputType="text" />
-        </RelativeLayout>
+                android:layout_height="104dp"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_below="@+id/create_card_view1"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="2dp"
+                android:clickable="true"
+                card_view:cardCornerRadius="2dp"
+                card_view:cardElevation="3dp">
 
-    </android.support.v7.widget.CardView>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/circle2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/circle"
+                        android:layout_margin="8dp"
+                        android:layout_centerVertical="true"/>
+                    <EditText
+                        android:id="@+id/item1"
+                        style="@style/Widget.AppCompat.EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:layout_toEndOf="@id/circle2"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="8dp"
+                        android:hint="Choice 2"
+                        android:inputType="text" />
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/create_card_view3"
+                android:layout_gravity="start"
+                android:layout_width="match_parent"
+                android:layout_height="104dp"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_below="@+id/create_card_view2"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="2dp"
+                android:clickable="true"
+                card_view:cardCornerRadius="2dp"
+                card_view:cardElevation="3dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/circle3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/circle"
+                        android:layout_margin="8dp"
+                        android:layout_centerVertical="true"/>
+                    <EditText
+                        android:id="@+id/item2"
+                        style="@style/Widget.AppCompat.EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:layout_toEndOf="@id/circle3"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="8dp"
+                        android:hint="Choice 3"
+                        android:inputType="text" />
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/create_card_view4"
+                android:layout_gravity="start"
+                android:layout_width="match_parent"
+                android:layout_height="104dp"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_below="@+id/create_card_view3"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="2dp"
+                android:clickable="true"
+                card_view:cardCornerRadius="2dp"
+                card_view:cardElevation="3dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/circle4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/circle"
+                        android:layout_margin="8dp"
+                        android:layout_centerVertical="true"/>
+                    <EditText
+                        android:id="@+id/item3"
+                        style="@style/Widget.AppCompat.EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:layout_toEndOf="@id/circle4"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="8dp"
+                        android:hint="Choice 4"
+                        android:inputType="text" />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/confirm_create_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:clickable="true"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_check_24dp"
-        android:tint="@color/colorAccent"/>
-
-
-</RelativeLayout>
+        android:clickable="true"
+        android:src="@drawable/ic_create_24dp"
+        android:layout_gravity="bottom|end" />
+</android.support.design.widget.CoordinatorLayout>

@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -32,6 +33,7 @@ import butterknife.OnClick;
  * Activity for creation of a new poll
  */
 public class CreateActivity extends AppCompatActivity {
+    @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.questionText) EditText question;
     @BindView(R.id.multiSelect) CheckBox multiSelect;
     @BindView(R.id.item0) EditText item0;
@@ -49,6 +51,8 @@ public class CreateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
         ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mAuth = FirebaseAuth.getInstance();
     }
 

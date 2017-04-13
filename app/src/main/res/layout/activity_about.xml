@@ -1,122 +1,145 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/activity_main"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="com.dunrite.tallyup.activities.AboutActivity">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <android.support.design.widget.AppBarLayout
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:clipToPadding="false">
+        android:layout_width="match_parent">
 
-        <TextView
-            android:id="@+id/ver_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/version"
-            android:textAllCaps="true"
-            android:textColor="@color/colorPrimaryDark"
-            android:paddingBottom="8dp"/>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/AppTheme.AppBarOverlay"/>
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/ver_card"
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/cardview_light_background"
-            android:layout_below="@id/ver_text">
+            android:padding="16dp"
+            android:clipToPadding="false">
 
-            <RelativeLayout
+            <TextView
+                android:id="@+id/ver_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/version"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimaryDark"
+                android:paddingBottom="8dp"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/ver_card"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                android:layout_below="@id/ver_text">
 
-                <ImageView
-                    android:id="@+id/logo"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_margin="8dp"
-                    android:layout_centerVertical="true"
-                    android:src="@mipmap/ic_launcher_green" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/appTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="32dp"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/app_name"
-                    android:textSize="@dimen/abc_text_size_headline_material" />
+                    <ImageView
+                        android:id="@+id/logo"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_margin="8dp"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/ic_launcher_green" />
 
-                <TextView
-                    android:id="@+id/versionNum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignStart="@id/appTitle"
-                    android:layout_below="@id/appTitle"
-                    android:text="v#.#.#" />
+                    <TextView
+                        android:id="@+id/appTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="32dp"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/app_name"
+                        android:textSize="@dimen/abc_text_size_headline_material" />
 
-                <ImageView
-                    android:id="@+id/a_dunrite_app"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:paddingRight="16dp"
-                    android:src="@drawable/dunriteappsdark" />
-            </RelativeLayout>
-        </android.support.v7.widget.CardView>
+                    <TextView
+                        android:id="@+id/versionNum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignStart="@id/appTitle"
+                        android:layout_below="@id/appTitle"
+                        android:text="v#.#.#" />
 
-        <TextView
-            android:id="@+id/dev_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/developers"
-            android:textAllCaps="true"
-            android:textColor="@color/colorPrimaryDark"
-            android:layout_below="@id/ver_card"
-            android:paddingBottom="8dp"
-            android:paddingTop="16dp" />
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/dev_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/cardview_light_background"
-            android:layout_below="@id/dev_text">
+                    <ImageView
+                        android:id="@+id/a_dunrite_app"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:paddingRight="16dp"
+                        android:src="@drawable/dunriteappsdark" />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
 
             <TextView
-                android:id="@+id/made"
+                android:id="@+id/dev_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="@string/dev_names"
-                android:textSize="@dimen/abc_text_size_title_material" />
-        </android.support.v7.widget.CardView>
+                android:text="@string/developers"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_below="@id/ver_card"
+                android:paddingBottom="8dp"
+                android:paddingTop="16dp" />
 
-        <TextView
-            android:id="@+id/lib_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Libraries Used"
-            android:textAllCaps="true"
-            android:textColor="@color/colorPrimaryDark"
-            android:layout_below="@id/dev_card"
-            android:paddingBottom="8dp"
-            android:paddingTop="16dp" />
+            <android.support.v7.widget.CardView
+                android:id="@+id/dev_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                android:layout_below="@id/dev_text">
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/lib_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/lib_text"
-            app:cardBackgroundColor="@color/cardview_light_background">
+                <TextView
+                    android:id="@+id/made"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:text="@string/dev_names"
+                    android:textSize="@dimen/abc_text_size_title_material" />
+            </android.support.v7.widget.CardView>
 
             <TextView
-                android:id="@+id/opensource"
+                android:id="@+id/lib_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="@string/libraries"
-                android:textSize="@dimen/abc_text_size_title_material" />
-        </android.support.v7.widget.CardView>
-    </RelativeLayout>
-</ScrollView>
+                android:text="Libraries Used"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_below="@id/dev_card"
+                android:paddingBottom="8dp"
+                android:paddingTop="16dp" />
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/lib_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/lib_text"
+                app:cardBackgroundColor="@color/cardview_light_background">
+
+                <TextView
+                    android:id="@+id/opensource"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:text="@string/libraries"
+                    android:textSize="@dimen/abc_text_size_title_material" />
+            </android.support.v7.widget.CardView>
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+</android.support.design.widget.CoordinatorLayout>
