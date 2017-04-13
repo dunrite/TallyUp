@@ -102,19 +102,19 @@ public class MainActivity extends FirebaseActivity {
             }
         };
         // [END auth_state_listener]
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        mAuth.addAuthStateListener(mAuthListener);
+        Log.d("MainActivity.onCreate", "isComingFromIntroSignIn: " + Utils.isComingFromIntroSignIn(this));
         if (Utils.isFirstLaunch(this)) {
             Intent intent = new Intent(this, IntroActivity.class); //call Intro class
             startActivityForResult(intent, RC_SIGN_IN);
         } else if (!Utils.isComingFromIntroSignIn(this)){
             signInToFirebase();
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
     }
 
     @Override
@@ -352,6 +352,7 @@ public class MainActivity extends FirebaseActivity {
             Toast.makeText(MainActivity.this, "Authentication failed.",
                     Toast.LENGTH_SHORT).show();
         }
+        Utils.cameFromIntroSignIn(this, false);
     }
 
 

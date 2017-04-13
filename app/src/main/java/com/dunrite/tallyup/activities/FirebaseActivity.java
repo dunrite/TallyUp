@@ -63,12 +63,14 @@ public class FirebaseActivity extends AppCompatActivity implements GoogleApiClie
     public void signInToFirebase() {
         if(mAuth.getCurrentUser() != null) {
             if (mAuth.getCurrentUser().isAnonymous()) {
+                Log.d("signInToFirebase", "Anon (First If)");
                 firebaseAuthAnonymous();
             } else {
+                Log.d("signInToFirebase", "Silent Google");
                 silentGoogleLogin();
             }
         } else {
-            Log.d("signInToFirebase", "Second else");
+            Log.d("signInToFirebase", "Anon (Second else)");
             firebaseAuthAnonymous();
         }
     }
@@ -102,8 +104,10 @@ public class FirebaseActivity extends AppCompatActivity implements GoogleApiClie
         GoogleSignInAccount signInAccount = signInResult.getSignInAccount();
         if (signInAccount != null) {
             // you have a valid sign in account. Skip the login.
+            Log.d("SilentSignIn", "VALID SIGN IN");
             firebaseAuthGoogle(signInAccount);
         } else {
+            Log.d("SilentSignIn", "NOT A VALID SIGN IN");
             // you don't have a valid sign in account. Eventually display the login page again
         }
     }
@@ -123,6 +127,7 @@ public class FirebaseActivity extends AppCompatActivity implements GoogleApiClie
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             Log.d(TAG, "linkWithCredential:onComplete:" + task.isSuccessful());
                             gatherDataFromFirebase(task);
+
                         }
                     });
         } else {
