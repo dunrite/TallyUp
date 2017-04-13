@@ -61,17 +61,27 @@ public class FirebaseActivity extends AppCompatActivity implements GoogleApiClie
     }
 
     public void signInToFirebase() {
-        if(mAuth.getCurrentUser() != null) {
-            if (mAuth.getCurrentUser().isAnonymous()) {
-                Log.d("signInToFirebase", "Anon (First If)");
-                firebaseAuthAnonymous();
+        if (Utils.isOnline(getApplicationContext())) {
+            if (mAuth.getCurrentUser() != null) {
+                if (mAuth.getCurrentUser().isAnonymous()) {
+                    Log.d("signInToFirebase", "Anon (First If)");
+                    firebaseAuthAnonymous();
+                } else {
+                    Log.d("signInToFirebase", "Silent Google");
+                    silentGoogleLogin();
+                }
             } else {
-                Log.d("signInToFirebase", "Silent Google");
-                silentGoogleLogin();
+                Log.d("signInToFirebase", "Anon (Second else)");
+                firebaseAuthAnonymous();
             }
         } else {
-            Log.d("signInToFirebase", "Anon (Second else)");
-            firebaseAuthAnonymous();
+            Snackbar.make(findViewById(R.id.activity_main), "No Internet Connection", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("RETRY", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    signInToFirebase();
+                }
+            }).show();
         }
     }
 
@@ -120,7 +130,7 @@ public class FirebaseActivity extends AppCompatActivity implements GoogleApiClie
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        if (mAuth.getCurrentUser() != null) {
+        if (mAuth.getCurrentUser() != null && mAuth.getCurrentUser().getEmail() == null) {
             mAuth.getCurrentUser().linkWithCredential(credential)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -147,22 +157,13 @@ public class FirebaseActivity extends AppCompatActivity implements GoogleApiClie
      * Connect to the Firebase database with anonymous account
      */
     public void firebaseAuthAnonymous() {
-        if (Utils.isOnline(getApplicationContext())) {
-            mAuth.signInAnonymously()
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            gatherDataFromFirebase(task);
-                        }
-                    });
-        } else {
-            Snackbar.make(findViewById(R.id.activity_main), "No Internet Connection", Snackbar.LENGTH_INDEFINITE).setAction("RETRY", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    firebaseAuthAnonymous();
-                }
-            }).show();
-        }
+        mAuth.signInAnonymously()
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        gatherDataFromFirebase(task);
+                    }
+                });
     }
 
     public void gatherDataFromFirebase(Task<AuthResult> task) {
