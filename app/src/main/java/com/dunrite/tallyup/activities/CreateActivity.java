@@ -4,11 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -18,8 +15,6 @@ import com.dunrite.tallyup.utility.Utils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
@@ -32,7 +27,7 @@ import butterknife.OnClick;
 /**
  * Activity for creation of a new poll
  */
-public class CreateActivity extends AppCompatActivity {
+public class CreateActivity extends FirebaseActivity {
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.questionText) EditText question;
     @BindView(R.id.multiSelect) CheckBox multiSelect;
@@ -41,8 +36,6 @@ public class CreateActivity extends AppCompatActivity {
     @BindView(R.id.item2) EditText item2;
     @BindView(R.id.item3) EditText item3;
     @BindView(R.id.confirm_create_fab) FloatingActionButton fab;
-    private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
     private String formattedQuestion;
     private String pollID;
 
@@ -53,14 +46,13 @@ public class CreateActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mAuth = FirebaseAuth.getInstance();
     }
 
     @OnClick(R.id.confirm_create_fab)
     public void onClickFAB() {
         if (validQuestion()) {
             formattedQuestion = formatQuestion(question.getText().toString());
-            pushQuestionToFirebase(formattedQuestion);
+            signInToFirebase();
         }
     }
 
@@ -82,59 +74,44 @@ public class CreateActivity extends AppCompatActivity {
         return temp;
     }
 
-    private void pushQuestionToFirebase(final String q) {
-        if(Utils.isOnline(getApplicationContext())) {
-            mAuth.signInAnonymously()
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            //Login successful
-                            Map<String, Object> newQuestion = new HashMap<>();
-                            Map<String, Object> i0 = constructChoice(item0);
-                            Map<String, Object> i1 = constructChoice(item1);
-                            if (!item2.getText().toString().equals("")) {
-                                Map<String, Object> i2 = constructChoice(item2);
-                                newQuestion.put("Item2", i2);
-                            }
-                            if (!item3.getText().toString().equals("")) {
-                                Map<String, Object> i3 = constructChoice(item3);
-                                newQuestion.put("Item2", i3);
-                            }
-                            newQuestion.put("Question", q);
-                            newQuestion.put("Item0", i0);
-                            newQuestion.put("Item1", i1);
+    @Override
+    public void gatherDataFromFirebase(Task<AuthResult> task) {
+        //Login successful
+        Map<String, Object> newQuestion = new HashMap<>();
+        Map<String, Object> i0 = constructChoice(item0);
+        Map<String, Object> i1 = constructChoice(item1);
+        if (!item2.getText().toString().equals("")) {
+            Map<String, Object> i2 = constructChoice(item2);
+            newQuestion.put("Item2", i2);
+        }
+        if (!item3.getText().toString().equals("")) {
+            Map<String, Object> i3 = constructChoice(item3);
+            newQuestion.put("Item2", i3);
+        }
+        newQuestion.put("Question", formattedQuestion);
+        newQuestion.put("Item0", i0);
+        newQuestion.put("Item1", i1);
 
-                            newQuestion.put("OwnerID", mAuth.getCurrentUser().getUid());
-                            mDatabase = FirebaseDatabase.getInstance().getReference("Polls");
-                            pollID = Utils.generateSaltString();
-                            mDatabase.child(pollID).updateChildren(newQuestion).addOnCompleteListener(new OnCompleteListener<Void>() {
+        newQuestion.put("OwnerID", mAuth.getCurrentUser().getUid());
+        mDatabase = FirebaseDatabase.getInstance().getReference("Polls");
+        pollID = Utils.generateSaltString();
+        mDatabase.child(pollID).updateChildren(newQuestion).addOnCompleteListener(new OnCompleteListener<Void>() {
 
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    //Open poll when created
-                                    Intent i = new Intent(getApplicationContext(), PollActivity.class);
-                                    i.putExtra("pollID", pollID);
-                                    i.putExtra("pollQuestion", formattedQuestion);
-                                    startActivity(i);
-                                }
-                            });
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                //Open poll when created
+                Intent i = new Intent(getApplicationContext(), PollActivity.class);
+                i.putExtra("pollID", pollID);
+                i.putExtra("pollQuestion", formattedQuestion);
+                startActivity(i);
+            }
+        });
 
-                            //login failure
-                            if (!task.isSuccessful()) {
-                                Log.w("auth", "signInAnonymously", task.getException());
-                                Toast.makeText(CreateActivity.this, "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-
-        } else {
-            Snackbar.make(findViewById(R.id.activity_main), "No Internet Connection", Snackbar.LENGTH_INDEFINITE).setAction("RETRY", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    pushQuestionToFirebase(formattedQuestion);
-                }
-            }).show();
+        //login failure
+        if (!task.isSuccessful()) {
+            Log.w("auth", "signInAnonymously", task.getException());
+            Toast.makeText(CreateActivity.this, "Authentication failed.",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 }
