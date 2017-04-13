@@ -6,10 +6,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.dunrite.tallyup.R;
+import com.dunrite.tallyup.activities.IntroActivity;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class IntroSlide extends Fragment {
+    @BindView(R.id.sign_in_button)
+    Button signInButton;
 
     private static final String ARG_LAYOUT_RES_ID = "layoutResId";
 
@@ -49,7 +56,13 @@ public class IntroSlide extends Fragment {
 
                 break;
             case R.layout.fragment_intro3:
-
+                ButterKnife.bind(this, rootView);
+                signInButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((IntroActivity)getActivity()).launchGoogleSignInIntent();
+                    }
+                });
                 break;
         }
         return rootView;

@@ -15,7 +15,6 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.dunrite.tallyup.activities.PollActivity;
-import com.google.firebase.auth.FirebaseUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,7 +47,7 @@ public class Utils {
      * @return if first launch or not
      */
     public static boolean isFirstLaunch(Activity a) {
-        SharedPreferences sharedPref = a.getSharedPreferences("FIRST", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = a.getSharedPreferences("first", Context.MODE_PRIVATE);
         return sharedPref.getBoolean("first", true);
     }
 
@@ -59,6 +58,7 @@ public class Utils {
         return (networkInfo != null && networkInfo.isConnected());
     }
 
+
     /*****************************************************************************
      * Setters
      *****************************************************************************/
@@ -67,12 +67,11 @@ public class Utils {
      * App has been launched, set first to false
      */
     public static void appHasLaunched(Activity a) {
-        SharedPreferences sharedPref = a.getSharedPreferences("FIRST", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = a.getSharedPreferences("first", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean("first", false);
         editor.apply();
     }
-
 
     /*****************************************************************************
      * Misc

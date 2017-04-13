@@ -37,5 +37,6 @@
         android:layout_marginTop="48dp"
         android:background="@drawable/common_google_signin_btn_text_light_focused"
         android:gravity="center"
+        android:clickable="true"
         android:text="@string/common_signin_button_text_long" />
 </LinearLayout>

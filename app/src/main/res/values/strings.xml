@@ -4,7 +4,7 @@
     <string name="tally_up">Tally Up</string>
     <string name="simply_ask">Simply Ask.</string>
     <string name="what_is_this">What is This?</string>
-    <string name="account_creation_desc">Account creation is optional. They allow you to create groups of other users, among other things.</string>
+    <string name="account_creation_desc">Account creation is optional. This allows you to sync data across devices</string>
     <string name="sign_up">Sign Up</string>
     <string name="take_poll">Take Poll</string>
     <string name="create_new_poll">Create New Poll</string>
@@ -12,7 +12,7 @@
     <string name="version">Version</string>
     <string name="developers">Developers</string>
     <string name="dev_names">Jaxon Wright\nKent Sinclair</string>
-    <string name="libraries">AppIntro by Paolo Rotolo\nButterknife by Jake Wharton\nFirebase by Google\nRetrofit by Square</string>
+    <string name="libraries">AppIntro by Paolo Rotolo\nButterknife by Jake Wharton\nFirebase by Google\nVolley by Google</string>
     <string name="about">About</string>
     <string name="app_code">wb975</string>
 </resources>
