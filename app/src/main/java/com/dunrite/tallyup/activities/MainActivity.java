@@ -52,6 +52,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import shortbread.Shortbread;
 
 import static com.dunrite.tallyup.R.menu.main;
 
@@ -79,6 +80,8 @@ public class MainActivity extends FirebaseActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         setRecentsStyle();
+        Shortbread.create(this);
+
         pollsList = new ArrayList<>();
         checkForDeepLink();
 

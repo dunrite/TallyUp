@@ -13,6 +13,7 @@ import com.dunrite.tallyup.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import shortbread.Shortcut;
 
 /**
  * About activity

@@ -23,10 +23,12 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import shortbread.Shortcut;
 
 /**
  * Activity for creation of a new poll
  */
+@Shortcut(id = "new_poll", icon = R.drawable.logo_white, shortLabel = "New Poll", activity = MainActivity.class)
 public class CreateActivity extends FirebaseActivity {
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.questionText) EditText question;

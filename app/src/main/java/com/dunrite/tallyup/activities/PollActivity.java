@@ -28,6 +28,8 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import shortbread.Shortcut;
+
 /**
  * Activity that displays a poll
  */
