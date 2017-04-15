@@ -18,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -52,6 +53,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 import static com.dunrite.tallyup.R.menu.main;
 
@@ -292,6 +294,26 @@ public class MainActivity extends FirebaseActivity {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthGoogle(account);
+                new MaterialTapTargetPrompt.Builder(MainActivity.this)
+                        .setTarget(findViewById(R.id.fab_create))
+                        .setPrimaryText("Create your first poll!")
+                        .setSecondaryText("Tap the pencil to create your first poll")
+                        .setBackgroundColourFromRes(R.color.colorPrimaryDark)
+                        .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener()
+                        {
+                            @Override
+                            public void onHidePrompt(MotionEvent event, boolean tappedTarget)
+                            {
+                                //Do something such as storing a value so that this prompt is never shown again
+                            }
+
+                            @Override
+                            public void onHidePromptComplete()
+                            {
+
+                            }
+                        })
+                        .show();
             } else {
                 // Google Sign In failed, update UI appropriately
                 // ...

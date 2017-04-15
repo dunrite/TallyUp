@@ -43,6 +43,8 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.5.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0'
 
+    compile 'uk.co.samuelwall:material-tap-target-prompt:1.10.0'
+
     compile 'com.github.matthiasrobbers:shortbread:1.0.1'
     annotationProcessor 'com.github.matthiasrobbers:shortbread-compiler:1.0.1'
 
