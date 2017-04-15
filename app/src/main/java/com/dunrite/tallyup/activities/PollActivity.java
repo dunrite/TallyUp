@@ -11,10 +11,10 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dunrite.tallyup.ArrayListAnySize;
-import com.dunrite.tallyup.PollItem;
 import com.dunrite.tallyup.R;
 import com.dunrite.tallyup.adapters.PollChoiceAdapter;
+import com.dunrite.tallyup.pojo.ArrayListAnySize;
+import com.dunrite.tallyup.pojo.PollItem;
 import com.dunrite.tallyup.utility.Utils;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -28,7 +28,6 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import shortbread.Shortcut;
 
 /**
  * Activity that displays a poll

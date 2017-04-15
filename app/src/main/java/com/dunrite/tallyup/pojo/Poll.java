@@ -1,4 +1,4 @@
-package com.dunrite.tallyup;
+package com.dunrite.tallyup.pojo;
 
 import com.dunrite.tallyup.utility.Utils;
 

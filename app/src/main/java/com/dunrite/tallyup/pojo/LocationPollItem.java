@@ -1,4 +1,4 @@
-package com.dunrite.tallyup;
+package com.dunrite.tallyup.pojo;
 
 public class LocationPollItem extends PollItem {
     private String address;

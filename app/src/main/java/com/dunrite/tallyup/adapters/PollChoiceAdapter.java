@@ -12,9 +12,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.dunrite.tallyup.PollItem;
 import com.dunrite.tallyup.R;
 import com.dunrite.tallyup.activities.PollActivity;
+import com.dunrite.tallyup.pojo.PollItem;
 
 import java.util.ArrayList;
 

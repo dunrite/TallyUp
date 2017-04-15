@@ -21,12 +21,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.dunrite.tallyup.ArrayListAnySize;
-import com.dunrite.tallyup.Poll;
-import com.dunrite.tallyup.PollItem;
 import com.dunrite.tallyup.R;
 import com.dunrite.tallyup.RecyclerItemClickListener;
 import com.dunrite.tallyup.adapters.UsersPollsAdapter;
+import com.dunrite.tallyup.pojo.ArrayListAnySize;
+import com.dunrite.tallyup.pojo.Poll;
+import com.dunrite.tallyup.pojo.PollItem;
 import com.dunrite.tallyup.utility.Utils;
 import com.google.android.gms.appinvite.AppInvite;
 import com.google.android.gms.appinvite.AppInviteInvitationResult;
@@ -52,7 +52,6 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import shortbread.Shortbread;
 
 import static com.dunrite.tallyup.R.menu.main;
 
@@ -80,8 +79,6 @@ public class MainActivity extends FirebaseActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         setRecentsStyle();
-        Shortbread.create(this);
-
         pollsList = new ArrayList<>();
         checkForDeepLink();
 

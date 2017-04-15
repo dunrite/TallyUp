@@ -1,4 +1,4 @@
-package com.dunrite.tallyup;
+package com.dunrite.tallyup.pojo;
 
 import java.util.ArrayList;
 

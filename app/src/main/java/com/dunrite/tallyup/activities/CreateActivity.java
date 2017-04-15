@@ -28,7 +28,7 @@ import shortbread.Shortcut;
 /**
  * Activity for creation of a new poll
  */
-@Shortcut(id = "new_poll", icon = R.drawable.logo_white, shortLabel = "New Poll", activity = MainActivity.class)
+@Shortcut(id = "new_poll", icon = R.drawable.ic_create_green_24dp, shortLabel = "New Poll")
 public class CreateActivity extends FirebaseActivity {
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.questionText) EditText question;
