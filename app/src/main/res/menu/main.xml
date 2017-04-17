@@ -9,4 +9,8 @@
         android:id="@+id/action_sign_in"
         android:orderInCategory="101"
         android:title="Sign in" />
+    <item
+        android:id="@+id/action_sign_out"
+        android:orderInCategory="102"
+        android:title="Sign out" />
 </menu>

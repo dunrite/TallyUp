@@ -73,7 +73,6 @@ public class MainActivity extends FirebaseActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,6 +131,20 @@ public class MainActivity extends FirebaseActivity {
         }
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu){
+        menu.findItem(R.id.action_sign_in).setVisible(true);
+        menu.findItem(R.id.action_sign_out).setVisible(false);
+        try {
+            if(mAuth.getCurrentUser().getEmail()!= null) {
+                menu.findItem(R.id.action_sign_out).setVisible(true);
+                menu.findItem(R.id.action_sign_in).setVisible(false);
+            }
+        } catch(Exception e){
+            Log.d(TAG, "null object refernce because we are already signed out");
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
 
     /**
      * Inflate the overflow menu in the actionbar
@@ -161,8 +174,12 @@ public class MainActivity extends FirebaseActivity {
         if (id == R.id.action_about) {
             Intent intent = new Intent(this, AboutActivity.class);
             startActivity(intent);
-        } else if (id == R.id.action_sign_in){
+        } else if (id == R.id.action_sign_in) {
             launchGoogleSignInIntent();
+            invalidateOptionsMenu();
+        } else if (id == R.id.action_sign_out) {
+            FirebaseAuth.getInstance().signOut();
+            invalidateOptionsMenu();
         }
         return super.onOptionsItemSelected(item);
     }
