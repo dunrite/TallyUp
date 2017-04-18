@@ -376,7 +376,10 @@ public class MainActivity extends FirebaseActivity {
                                 }
                             }
                         }
-                        pollsList.add(new Poll(poll.getKey(), attributes.get("Question").toString(), "type", false, pollItems));
+                        pollsList.add(new Poll(poll.getKey(),
+                                attributes.get("Question").toString(),
+                                attributes.get("Type").toString(),
+                                attributes.get("ExpireTime").toString(), pollItems));
                     }
 
                 }

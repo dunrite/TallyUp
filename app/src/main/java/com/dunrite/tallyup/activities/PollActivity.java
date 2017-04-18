@@ -2,6 +2,7 @@ package com.dunrite.tallyup.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -23,7 +24,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -37,9 +41,11 @@ public class PollActivity extends FirebaseActivity {
     private int selectedItem; //If the user previously participated, we need to remember their choice
     private ArrayListAnySize<PollItem> pollItems;
     private PollChoiceAdapter adapter;
+    private Date expireTime;
 
     @BindView(R.id.questionText) TextView questionText;
     @BindView(R.id.recyclerview_choices) RecyclerView choicesRV;
+    @BindView(R.id.timeText) TextView timeText;
     @BindView(R.id.main_toolbar)
     Toolbar toolbar;
 
@@ -48,6 +54,7 @@ public class PollActivity extends FirebaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poll);
         ButterKnife.bind(this);
+        expireTime = new Date();
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -102,6 +109,27 @@ public class PollActivity extends FirebaseActivity {
         startActivity(sendIntent);
     }
 
+    public void setupCountdownTimer() {
+        Date now = Calendar.getInstance().getTime();
+        Log.d("PollActivity.currTime", now.toString());
+        Log.d("PollActivity.expireTime", expireTime.toString());
+        Log.d("PollActivity.milliToExp", "" + (expireTime.getTime() - now.getTime()));
+        CountDownTimer c = new CountDownTimer(expireTime.getTime() - now.getTime(), 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                long second = (millisUntilFinished / 1000) % 60;
+                long minute = (millisUntilFinished / (1000 * 60)) % 60;
+                long hour = (millisUntilFinished / (1000 * 60 * 60)) % 24;
+                timeText.setText(String.format("%02d:%02d:%02d", hour, minute, second));
+            }
+
+            @Override
+            public void onFinish() {
+                Log.d("PollActivity", "TIME EXPIRED");
+            }
+        };
+        c.start();
+    }
 
     public void setupRecyclerView() {
         adapter = new PollChoiceAdapter(pollItems, selectedItem, this);
@@ -152,6 +180,12 @@ public class PollActivity extends FirebaseActivity {
                         }
                     }
                 }
+                try {
+                    expireTime.setTime(java.text.DateFormat.getDateTimeInstance().parse(items.get("ExpireTime").toString()).getTime());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                setupCountdownTimer();
                 setupRecyclerView();
             }
 

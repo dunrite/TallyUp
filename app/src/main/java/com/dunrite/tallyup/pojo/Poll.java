@@ -11,17 +11,16 @@ public class Poll {
     private String id;
     private String question;
     private String type;
-    private boolean multiSelect;
     private String expireTime;
     private ArrayList<PollItem> items;
     private int voteCount;
 
-    public Poll (String i, String q, String t, Boolean m, ArrayList<PollItem> pi) {
+    public Poll (String i, String q, String t, String et, ArrayList<PollItem> pi) {
         question = q;
         type = t;
-        multiSelect = m;
         items = pi;
         id = i;
+        expireTime = et;
     }
 
     public Poll (String i, String q) {
@@ -43,14 +42,6 @@ public class Poll {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public boolean isMultiSelect() {
-        return multiSelect;
-    }
-
-    public void setMultiSelect(boolean multiSelect) {
-        this.multiSelect = multiSelect;
     }
 
     public String getId() {
@@ -102,4 +93,11 @@ public class Poll {
     }
 
 
+    public String getExpireTime() {
+        return expireTime;
+    }
+
+    public void setExpireTime(String expireTime) {
+        this.expireTime = expireTime;
+    }
 }
