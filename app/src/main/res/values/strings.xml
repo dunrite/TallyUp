@@ -15,6 +15,8 @@
     <string name="libraries">AppIntro by Paolo Rotolo\nButterknife by Jake Wharton\nFirebase by Google\nVolley by Google\nShortbread by Matthias Robbers\nMaterialTapTargetPrompt by Samuel Wall</string>
     <string name="about">About</string>
     <string name="app_code">wb975</string>
+    <string name="done">DONE</string>
+    <string name="winner">WINNER</string>
 
     <string-array name="choice_types">
         <item>Plain Text</item>

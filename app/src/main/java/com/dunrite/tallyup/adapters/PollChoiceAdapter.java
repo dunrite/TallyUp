@@ -7,8 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,7 +26,7 @@ import butterknife.ButterKnife;
 public class PollChoiceAdapter extends RecyclerView.Adapter<PollChoiceAdapter.ViewHolder> {
     // Allows to remember the last item shown on screen
     private int lastPosition = -1;
-
+    private boolean pollIsComplete = false;
     private int selectedPos = -1;
     private int lastSelectedPos = -1;
     private PollActivity activity;
@@ -43,6 +41,7 @@ public class PollChoiceAdapter extends RecyclerView.Adapter<PollChoiceAdapter.Vi
         @BindView(R.id.choice_name) TextView  choiceName;
         @BindView(R.id.vote_count) TextView voteCount;
         @BindView(R.id.checkmark) ImageView checkmark;
+        @BindView(R.id.winner) TextView winnerText;
 
         private Context context;
 
@@ -55,7 +54,7 @@ public class PollChoiceAdapter extends RecyclerView.Adapter<PollChoiceAdapter.Vi
 
         @Override
         public void onClick(View v) {
-            if(selectedPos != getAdapterPosition()) {
+            if(selectedPos != getAdapterPosition() && !pollIsComplete) {
                 lastSelectedPos = selectedPos;
                 selectedPos = getAdapterPosition();
                 notifyItemChanged(selectedPos);
@@ -91,10 +90,13 @@ public class PollChoiceAdapter extends RecyclerView.Adapter<PollChoiceAdapter.Vi
         holder.choiceName.setText(pollItem.getName());
         String voteString = pollItem.getVotes() + " Votes";
         holder.voteCount.setText(voteString);
-
+        holder.winnerText.setVisibility(View.INVISIBLE);
         if (position == selectedPos) {
             holder.checkmark.setVisibility(View.VISIBLE);
-            holder.card.setCardBackgroundColor(ContextCompat.getColor(activity, R.color.colorPrimary));
+            if (pollIsComplete)
+                holder.card.setCardBackgroundColor(ContextCompat.getColor(activity, R.color.colorPrimary));
+            else
+                holder.card.setCardBackgroundColor(ContextCompat.getColor(activity, R.color.colorPrimaryDark));
             holder.choiceName.setTextColor(ContextCompat.getColor(activity, R.color.colorAccent));
             holder.voteCount.setTextColor(ContextCompat.getColor(activity, R.color.colorAccent));
         } else {
@@ -103,7 +105,23 @@ public class PollChoiceAdapter extends RecyclerView.Adapter<PollChoiceAdapter.Vi
             holder.choiceName.setTextColor(ContextCompat.getColor(activity, R.color.colorPrimary));
             holder.voteCount.setTextColor(ContextCompat.getColor(activity, R.color.colorPrimary));
         }
-       // setAnimation(holder.card, position);
+
+        if (pollIsComplete && isWinner(position)) {
+            holder.winnerText.setVisibility(View.VISIBLE);
+            holder.card.setCardBackgroundColor(ContextCompat.getColor(activity, R.color.colorPrimaryDark));
+            holder.choiceName.setTextColor(ContextCompat.getColor(activity, R.color.colorAccent));
+            holder.voteCount.setTextColor(ContextCompat.getColor(activity, R.color.colorAccent));
+        }
+    }
+
+    private boolean isWinner(int pos) {
+        int max = 0;
+        for(PollItem i: choices) {
+            if (i.getVotes() > max) {
+                max = i.getVotes();
+            }
+        }
+        return choices.get(pos).getVotes() == max;
     }
 
     @Override
@@ -111,15 +129,9 @@ public class PollChoiceAdapter extends RecyclerView.Adapter<PollChoiceAdapter.Vi
         return choices.size();
     }
 
-    /**
-     * Here is the key method to apply the animation
-     */
-    private void setAnimation(View viewToAnimate, int position) {
-        // If the bound view wasn't previously displayed on screen, it's animated
-        if (position > lastPosition) {
-            Animation animation = AnimationUtils.loadAnimation(viewToAnimate.getContext(), android.R.anim.slide_in_left);
-            viewToAnimate.startAnimation(animation);
-            lastPosition = position;
-        }
+    public void setPollComplete() {
+        pollIsComplete = true;
+        notifyDataSetChanged();
     }
+
 }

@@ -114,21 +114,29 @@ public class PollActivity extends FirebaseActivity {
         Log.d("PollActivity.currTime", now.toString());
         Log.d("PollActivity.expireTime", expireTime.toString());
         Log.d("PollActivity.milliToExp", "" + (expireTime.getTime() - now.getTime()));
-        CountDownTimer c = new CountDownTimer(expireTime.getTime() - now.getTime(), 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                long second = (millisUntilFinished / 1000) % 60;
-                long minute = (millisUntilFinished / (1000 * 60)) % 60;
-                long hour = (millisUntilFinished / (1000 * 60 * 60)) % 24;
-                timeText.setText(String.format("%02d:%02d:%02d", hour, minute, second));
-            }
+        if (expireTime.getTime() - now.getTime() < 0) {
+            Log.d("PollActivity", "TIME EXPIRED");
+            timeText.setText(R.string.done);
+            adapter.setPollComplete();
+        } else {
+            CountDownTimer c = new CountDownTimer(expireTime.getTime() - now.getTime(), 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    long second = (millisUntilFinished / 1000) % 60;
+                    long minute = (millisUntilFinished / (1000 * 60)) % 60;
+                    long hour = (millisUntilFinished / (1000 * 60 * 60)) % 24;
+                    timeText.setText(String.format("%02d:%02d:%02d", hour, minute, second));
+                }
 
-            @Override
-            public void onFinish() {
-                Log.d("PollActivity", "TIME EXPIRED");
-            }
-        };
-        c.start();
+                @Override
+                public void onFinish() {
+                    Log.d("PollActivity", "TIME EXPIRED");
+                    timeText.setText(R.string.done);
+                    adapter.setPollComplete();
+                }
+            };
+            c.start();
+        }
     }
 
     public void setupRecyclerView() {
@@ -136,6 +144,7 @@ public class PollActivity extends FirebaseActivity {
         LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
         choicesRV.setLayoutManager(manager);
         choicesRV.setAdapter(adapter);
+        setupCountdownTimer();
     }
 
     public void updateChoice(int prev, int curr) {
@@ -185,7 +194,6 @@ public class PollActivity extends FirebaseActivity {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                setupCountdownTimer();
                 setupRecyclerView();
             }
 
