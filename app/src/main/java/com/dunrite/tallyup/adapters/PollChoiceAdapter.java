@@ -1,12 +1,15 @@
 package com.dunrite.tallyup.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,6 +35,7 @@ public class PollChoiceAdapter extends RecyclerView.Adapter<PollChoiceAdapter.Vi
     private PollActivity activity;
     private ArrayList<PollItem> choices;
     private PollItem pollItem;
+    private static Context context;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -42,8 +46,8 @@ public class PollChoiceAdapter extends RecyclerView.Adapter<PollChoiceAdapter.Vi
         @BindView(R.id.vote_count) TextView voteCount;
         @BindView(R.id.checkmark) ImageView checkmark;
         @BindView(R.id.winner) TextView winnerText;
+        @BindView(R.id.location) Button location;
 
-        private Context context;
 
         public ViewHolder(Context c, View v) {
             super(v);
@@ -105,13 +109,27 @@ public class PollChoiceAdapter extends RecyclerView.Adapter<PollChoiceAdapter.Vi
             holder.choiceName.setTextColor(ContextCompat.getColor(activity, R.color.colorPrimary));
             holder.voteCount.setTextColor(ContextCompat.getColor(activity, R.color.colorPrimary));
         }
-
         if (pollIsComplete && isWinner(position)) {
             holder.winnerText.setVisibility(View.VISIBLE);
             holder.card.setCardBackgroundColor(ContextCompat.getColor(activity, R.color.colorPrimaryDark));
             holder.choiceName.setTextColor(ContextCompat.getColor(activity, R.color.colorAccent));
             holder.voteCount.setTextColor(ContextCompat.getColor(activity, R.color.colorAccent));
+            holder.location.setVisibility(View.VISIBLE);
+            final String choiceStr = holder.choiceName.getText().toString();
+            holder.location.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // todo new Googlemaps intent
+                    Uri gmmIntentUri = Uri.parse("geo:0,0?q="+choiceStr);
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                    mapIntent.setPackage("com.google.android.apps.maps");
+                    if(context instanceof PollActivity){
+                        context.startActivity(mapIntent);
+                    }
+                }
+            });
         }
+
     }
 
     private boolean isWinner(int pos) {

@@ -102,9 +102,6 @@ public class MainActivity extends FirebaseActivity {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
-                // [START_EXCLUDE]
-                //TODO modify the signIn menu item to sign out
-                // [END_EXCLUDE]
             }
         };
         // [END auth_state_listener]
