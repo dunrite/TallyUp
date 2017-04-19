@@ -3,6 +3,7 @@ package com.dunrite.tallyup.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v4.app.ShareCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -102,11 +103,11 @@ public class PollActivity extends FirebaseActivity {
 
 
     public void launchShareIntent(String shareURL) {
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, "Take my poll in TallyUp.\n" + shareURL);
-        sendIntent.setType("text/plain");
-        startActivity(sendIntent);
+        ShareCompat.IntentBuilder
+                .from(this) // getActivity() or activity field if within Fragment
+                .setText("Take my poll in TallyUp.\n" + shareURL)
+                .setType("text/plain") // most general text sharing MIME type
+                .startChooser();
     }
 
     public void setupCountdownTimer() {
