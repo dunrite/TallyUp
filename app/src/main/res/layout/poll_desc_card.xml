@@ -35,6 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/poll_question"
                 android:layout_marginStart="16dp"
+                android:layout_marginBottom="20dp"
                 android:text="11 people have voted"
                 android:textSize="15sp" />
 
