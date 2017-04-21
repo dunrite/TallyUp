@@ -20,6 +20,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dunrite.tallyup.R;
@@ -72,6 +74,10 @@ public class MainActivity extends FirebaseActivity {
     CoordinatorLayout mainView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+    @BindView(R.id.your_poll)
+    TextView yourPolls;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -252,6 +258,9 @@ public class MainActivity extends FirebaseActivity {
                             }
 
                         }));
+        progressBar.setVisibility(View.INVISIBLE);
+        yourPolls.setVisibility(View.VISIBLE);
+
 
     }
 

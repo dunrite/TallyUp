@@ -58,6 +58,7 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+
         <android.support.v7.widget.RecyclerView
             android:layout_below="@id/topPanel"
             android:id="@+id/recyclerview_choices"
