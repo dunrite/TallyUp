@@ -131,6 +131,11 @@ public class PollChoiceAdapter extends RecyclerView.Adapter<PollChoiceAdapter.Vi
 
     }
 
+    @Override
+    public int getItemCount() {
+        return choices.size();
+    }
+
     private boolean isWinner(int pos) {
         int max = 0;
         for(PollItem i: choices) {
@@ -139,11 +144,6 @@ public class PollChoiceAdapter extends RecyclerView.Adapter<PollChoiceAdapter.Vi
             }
         }
         return choices.get(pos).getVotes() == max;
-    }
-
-    @Override
-    public int getItemCount() {
-        return choices.size();
     }
 
     public void setPollComplete() {
