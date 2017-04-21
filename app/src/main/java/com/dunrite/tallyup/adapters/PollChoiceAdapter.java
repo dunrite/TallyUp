@@ -114,19 +114,20 @@ public class PollChoiceAdapter extends RecyclerView.Adapter<PollChoiceAdapter.Vi
             holder.card.setCardBackgroundColor(ContextCompat.getColor(activity, R.color.colorPrimaryDark));
             holder.choiceName.setTextColor(ContextCompat.getColor(activity, R.color.colorAccent));
             holder.voteCount.setTextColor(ContextCompat.getColor(activity, R.color.colorAccent));
-            holder.location.setVisibility(View.VISIBLE);
-            final String choiceStr = holder.choiceName.getText().toString();
-            holder.location.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Uri gmmIntentUri = Uri.parse("geo:0,0?q="+choiceStr);
-                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-//                    mapIntent.setPackage("com.google.android.apps.maps");
-                    if(context instanceof PollActivity){
-                        context.startActivity(mapIntent);
+            if (pollItem.getType().equals("Location")) {
+                holder.location.setVisibility(View.VISIBLE);
+                final String choiceStr = holder.choiceName.getText().toString();
+                holder.location.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Uri gmmIntentUri = Uri.parse("geo:0,0?q="+choiceStr);
+                        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                        if(context instanceof PollActivity){
+                            context.startActivity(mapIntent);
+                        }
                     }
-                }
-            });
+                });
+            }
         }
 
     }

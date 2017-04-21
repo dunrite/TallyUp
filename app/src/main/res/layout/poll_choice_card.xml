@@ -71,8 +71,8 @@
                 android:layout_height="48dp"
                 android:layout_alignEnd="@+id/vote_count"
                 android:layout_centerVertical="true"
-                android:background="@drawable/map_marker"
-                android:src="@drawable/map_marker"
+                android:src="@drawable/ic_pin_drop_24dp"
+                android:background="@drawable/ic_pin_drop_24dp"
                 android:visibility="invisible" />
         </RelativeLayout>
 

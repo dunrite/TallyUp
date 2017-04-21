@@ -10,6 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,8 +49,8 @@ public class PollActivity extends FirebaseActivity {
     @BindView(R.id.questionText) TextView questionText;
     @BindView(R.id.recyclerview_choices) RecyclerView choicesRV;
     @BindView(R.id.timeText) TextView timeText;
-    @BindView(R.id.main_toolbar)
-    Toolbar toolbar;
+    @BindView(R.id.main_toolbar) Toolbar toolbar;
+    @BindView(R.id.progressBar) ProgressBar loadingIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +148,7 @@ public class PollActivity extends FirebaseActivity {
         choicesRV.setLayoutManager(manager);
         choicesRV.setAdapter(adapter);
         setupCountdownTimer();
+        loadingIndicator.setVisibility(View.GONE);
     }
 
     public void updateChoice(int prev, int curr) {
@@ -171,7 +174,7 @@ public class PollActivity extends FirebaseActivity {
                 for (Map.Entry<String, Object> item : items.entrySet()) {
                     if (item.getKey().startsWith("Item")) {
                         Map<String, Object> attributes = (Map<String, Object>) item.getValue();
-                        PollItem pi = new PollItem(attributes.get("Name").toString(), 0);
+                        PollItem pi = new PollItem(attributes.get("Name").toString(),  items.get("Type").toString(), 0);
                         pollItems.add(Character.getNumericValue(item.getKey().charAt(4)), pi);
                     }
                     if (item.getKey().equals("Question")) {

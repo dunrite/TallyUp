@@ -149,6 +149,7 @@ public class CreateActivity extends FirebaseActivity {
                 i.putExtra("pollID", pollID);
                 i.putExtra("pollQuestion", formattedQuestion);
                 startActivity(i);
+                finish();
             }
         });
 
