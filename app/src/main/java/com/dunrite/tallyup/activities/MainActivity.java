@@ -249,12 +249,16 @@ public class MainActivity extends FirebaseActivity {
                         new RecyclerItemClickListener.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
+                                view.findViewById(R.id.end_button).setVisibility(View.GONE);
+                                view.findViewById(R.id.leave_button).setVisibility(View.GONE);
                                 configureIntent(adapter.getPositionInfo(position));
                             }
 
                             @Override
                             public void onItemLongClick(View view, int position) {
-
+                                if (adapter.getPositionInfo(position).getOwnerID().equals(mAuth.getCurrentUser().getUid()))
+                                    view.findViewById(R.id.end_button).setVisibility(View.VISIBLE);
+                                view.findViewById(R.id.leave_button).setVisibility(View.VISIBLE);
                             }
 
                         }));
@@ -385,7 +389,8 @@ public class MainActivity extends FirebaseActivity {
                         pollsList.add(new Poll(poll.getKey(),
                                 attributes.get("Question").toString(),
                                 attributes.get("Type").toString(),
-                                attributes.get("ExpireTime").toString(), pollItems));
+                                attributes.get("ExpireTime").toString(),
+                                attributes.get("OwnerID").toString(), pollItems));
                     }
 
                 }

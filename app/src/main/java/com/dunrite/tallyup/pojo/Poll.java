@@ -13,14 +13,16 @@ public class Poll {
     private String type;
     private String expireTime;
     private ArrayList<PollItem> items;
+    private String ownerID;
     private int voteCount;
 
-    public Poll (String i, String q, String t, String et, ArrayList<PollItem> pi) {
+    public Poll (String i, String q, String t, String et, String own, ArrayList<PollItem> pi) {
         question = q;
         type = t;
         items = pi;
         id = i;
         expireTime = et;
+        ownerID = own;
     }
 
     public Poll (String i, String q) {
@@ -99,5 +101,13 @@ public class Poll {
 
     public void setExpireTime(String expireTime) {
         this.expireTime = expireTime;
+    }
+
+    public String getOwnerID() {
+        return ownerID;
+    }
+
+    public void setOwnerID(String ownerID) {
+        this.ownerID = ownerID;
     }
 }

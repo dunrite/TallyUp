@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.dunrite.tallyup.R;
@@ -36,6 +37,8 @@ public class UsersPollsAdapter extends RecyclerView.Adapter<UsersPollsAdapter.Vi
         @BindView(R.id.poll_card_view) CardView card;
         @BindView(R.id.poll_question) TextView question;
         @BindView(R.id.poll_description) TextView description;
+        @BindView(R.id.end_button) ImageButton endButton;
+        @BindView(R.id.leave_button) ImageButton leaveButton;
 
         public ViewHolder(Context c, View v) {
             super(v);
