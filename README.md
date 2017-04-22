@@ -1,7 +1,4 @@
-Get the Beta version right now
-
-<a href="https://play.google.com/store/apps/details?id=com.dunrite.tallyup&utm_source=github&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="300"></a>
-<img src="http://i.imgur.com/c0EKosS.png" width="500px">
+<img src="http://i.imgur.com/c0EKosS.png" width="500px"><a href="https://play.google.com/store/apps/details?id=com.dunrite.tallyup&utm_source=github&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="300"></a>
 
 ### Description
 This mobile application is a simple tool to create polls to settle anything you can think of. One example would be a group of employees or friends deciding on where to eat for lunch. Somebody would create a room that expires after a set amount of time, and shares a code/link with the others. They all vote on locations to eat and maybe even get access to navigate to the winner on Google Maps. That is one example, but there are a multitude of other use-cases that may get special features. 
