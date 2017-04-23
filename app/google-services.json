@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "632295433583-ta167utd6c046ljbef01ggpkdmqjvtas.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dunrite.tallyup",
+            "certificate_hash": "9fc0afad9e20a77a7b197b3ede2e7a267ed85021"
+          }
+        },
+        {
           "client_id": "632295433583-rt8anbjak0gh047g4sm39qo27ns5nqvi.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
