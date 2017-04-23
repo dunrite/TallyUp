@@ -8,8 +8,8 @@ android {
         applicationId "com.dunrite.tallyup"
         minSdkVersion 17
         targetSdkVersion 25
-        versionCode 1000001
-        versionName "1.0.1beta"
+        versionCode 1000002
+        versionName "1.0.2beta"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

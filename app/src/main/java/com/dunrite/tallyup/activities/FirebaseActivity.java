@@ -24,7 +24,13 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Map;
 
 /**
  *  Activity class containing everything partaining to Firebase
@@ -167,6 +173,30 @@ public class FirebaseActivity extends AppCompatActivity implements GoogleApiClie
     }
 
     public void gatherDataFromFirebase(Task<AuthResult> task) {
+
+    }
+
+    public void leavePoll(String id) {
+        mDatabase = FirebaseDatabase.getInstance().getReference("Polls/" + id + "/Voters");
+
+        // Read from the database
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value(s) and again
+                // whenever data at this location is updated.
+                Map<String, Object> voters = (Map<String, Object>) dataSnapshot.getValue();
+                voters.remove(mAuth.getCurrentUser().getUid());
+
+            }
+
+            // Data listener cancelled
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("data", "Failed to leave poll.", error.toException());
+            }
+        });
 
     }
 
