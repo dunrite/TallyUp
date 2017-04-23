@@ -130,7 +130,7 @@ public class CreateActivity extends FirebaseActivity {
         }
         if (!item3.getText().toString().equals("")) {
             Map<String, Object> i3 = constructChoice(item3);
-            newQuestion.put("Item2", i3);
+            newQuestion.put("Item3", i3);
         }
         newQuestion.put("Question", formattedQuestion);
         newQuestion.put("Item0", i0);
