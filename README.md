@@ -10,6 +10,8 @@ This mobile application is a simple tool to create polls to settle anything you 
 * [AppIntro by Paolo Rotolo](https://github.com/apl-devs/AppIntro)
 * [Butterknife by Jake Wharton](https://github.com/JakeWharton/butterknife)
 * [Firebase by Google](https://firebase.google.com)
-* [Volley by Google](https://github.com/google/volley)
-* [Shortbread by Matthias Robbers](https://github.com/MatthiasRobbers/shortbread)
 * [MaterialTapTargetPrompt by Samuel Wall](https://github.com/sjwall/MaterialTapTargetPrompt)
+* [Shortbread by Matthias Robbers](https://github.com/MatthiasRobbers/shortbread)
+* [TimeDurationPicker by Sven Wiegand](https://github.com/svenwiegand/time-duration-picker)
+* [Volley by Google](https://github.com/google/volley)
+
