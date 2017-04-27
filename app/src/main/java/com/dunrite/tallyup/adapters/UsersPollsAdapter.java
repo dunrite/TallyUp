@@ -1,8 +1,10 @@
 package com.dunrite.tallyup.adapters;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dunrite.tallyup.R;
 import com.dunrite.tallyup.activities.MainActivity;
@@ -19,6 +22,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Adapter for the main activity to show user's current and previous polls
@@ -29,6 +33,7 @@ public class UsersPollsAdapter extends RecyclerView.Adapter<UsersPollsAdapter.Vi
     private MainActivity mActivity;
     private ArrayList<Poll> mPolls;
     private Poll poll;
+    public static final String TAG = "Button Pressed:";
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -39,6 +44,7 @@ public class UsersPollsAdapter extends RecyclerView.Adapter<UsersPollsAdapter.Vi
         @BindView(R.id.poll_description) TextView description;
         @BindView(R.id.end_button) ImageButton endButton;
         @BindView(R.id.leave_button) ImageButton leaveButton;
+
 
         public ViewHolder(Context c, View v) {
             super(v);
@@ -78,9 +84,30 @@ public class UsersPollsAdapter extends RecyclerView.Adapter<UsersPollsAdapter.Vi
             descText = poll.getVoteCount() + " person has voted. " + poll.getLeadingAnswers();
         else
             descText = poll.getVoteCount() + " people have voted. " + poll.getLeadingAnswers();
+        if (poll.getOwnerID() == mActivity.mAuth.getCurrentUser().getUid())
+            holder.endButton.setEnabled(true);
+            holder.leaveButton.setEnabled(true);
 
+
+        // clicky stuff
+        holder.endButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // DO STUFF
+                Log.d(TAG, " set poll time");
+                poll.setExpireTime("1");
+            }
+        });
+
+        holder.leaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // DO STUFF
+            }
+        });
         holder.question.setText(poll.getQuestion());
         holder.description.setText(descText);
+
         setAnimation(holder.card, position);
     }
 

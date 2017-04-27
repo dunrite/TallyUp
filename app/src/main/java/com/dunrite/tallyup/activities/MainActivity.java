@@ -12,6 +12,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -24,6 +25,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dunrite.tallyup.App;
 import com.dunrite.tallyup.R;
 import com.dunrite.tallyup.RecyclerItemClickListener;
 import com.dunrite.tallyup.adapters.UsersPollsAdapter;
@@ -58,6 +60,7 @@ import butterknife.OnClick;
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 import static com.dunrite.tallyup.R.menu.main;
+import static com.dunrite.tallyup.R.menu.poll;
 
 /**
  * Main activity that shows active and closed polls for the user
@@ -78,6 +81,9 @@ public class MainActivity extends FirebaseActivity {
     ProgressBar progressBar;
     @BindView(R.id.your_poll)
     TextView yourPolls;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -193,6 +199,7 @@ public class MainActivity extends FirebaseActivity {
         startActivity(intent);
     }
 
+
     /**
      * Sets custom white logo on recent app menu card
      */
@@ -235,7 +242,6 @@ public class MainActivity extends FirebaseActivity {
                         });
 
     }
-
     /**
      * Set up the RecyclerView
      */
@@ -249,6 +255,7 @@ public class MainActivity extends FirebaseActivity {
                         new RecyclerItemClickListener.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
+
                                 view.findViewById(R.id.end_button).setVisibility(View.GONE);
                                 view.findViewById(R.id.leave_button).setVisibility(View.GONE);
                                 configureIntent(adapter.getPositionInfo(position));
@@ -257,8 +264,9 @@ public class MainActivity extends FirebaseActivity {
                             @Override
                             public void onItemLongClick(View view, int position) {
                                 if (adapter.getPositionInfo(position).getOwnerID().equals(mAuth.getCurrentUser().getUid()))
+                                    // TODO logic to end if owner and leave poll needs to go here
                                     view.findViewById(R.id.end_button).setVisibility(View.VISIBLE);
-                                view.findViewById(R.id.leave_button).setVisibility(View.VISIBLE);
+                                    view.findViewById(R.id.leave_button).setVisibility(View.VISIBLE);
                             }
 
                         }));
@@ -267,6 +275,7 @@ public class MainActivity extends FirebaseActivity {
 
 
     }
+
 
     public void configureIntent(Poll p) {
         Intent i = new Intent(this, PollActivity.class);

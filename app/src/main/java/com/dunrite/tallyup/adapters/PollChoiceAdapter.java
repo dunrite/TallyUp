@@ -95,6 +95,7 @@ public class PollChoiceAdapter extends RecyclerView.Adapter<PollChoiceAdapter.Vi
         String voteString = pollItem.getVotes() + " Votes";
         holder.voteCount.setText(voteString);
         holder.winnerText.setVisibility(View.INVISIBLE);
+
         if (position == selectedPos) {
             holder.checkmark.setVisibility(View.VISIBLE);
             if (pollIsComplete)
